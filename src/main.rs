@@ -48,5 +48,5 @@ fn main() {
     println!("{:.6}\n", ftp_res1.ftp_rate.unwrap());
     println!("{:.6}\n", ftp_res1.market_rate.unwrap());
     println!("{:.6}", ftp_res1.ftp_int.unwrap());
-    
+    println!("test");
 }
