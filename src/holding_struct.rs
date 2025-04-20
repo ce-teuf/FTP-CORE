@@ -1,4 +1,6 @@
-use ndarray::{Array2, array, s};
+use ndarray::Array2;
+use crate::method_flux::flux_func_stock_amort::flux_func_stock_amort;
+use crate::method_flux::flux_func_stock_var::flux_func_stock_var;
 
 pub struct FtpResult {
     pub input_outstanding: Array2<f64>,
@@ -12,15 +14,13 @@ pub struct FtpResult {
     pub ftp_int: Option<Array2<f64>>,
     pub market_rate: Option<Array2<f64>>,
 }
-
-use crate::method_stock::{func_ftp_rate::func_ftp_rate,
-                          func_ftp_int::func_ftp_int,
-                          func_market_rate,
+use crate::common_funcs::{func_ftp_int::func_ftp_int,
+                          func_ftp_rate::func_ftp_rate, func_market_rate::func_market_rate};
+use crate::common_funcs::func_stock_instal::func_stock_instal;
+use crate::common_funcs::func_stock_var_instal::func_stock_var_instal;
+use crate::method_stock::{
     func_stock_amort::func_stock_amort,
-    func_stock_instal::func_stock_instal, 
-    func_stock_var::func_stock_var, 
-    func_stock_var_instal::func_stock_var_instal,
-    func_market_rate::func_market_rate
+    func_stock_var::func_stock_var,
 };
 
 impl FtpResult {
@@ -87,43 +87,31 @@ impl FtpResult {
 
                 for j in (0..ncols).rev() {
                     if j > 0 {
-                        //println!("\n");
                         func_ftp_rate(self, i, j-1, ncols);
                         func_ftp_int(self, i, j-1, ncols);
-                        let aa = self.ftp_rate.as_ref().unwrap();
-                        //println!("i = {}; j-1 = {} ; ftp = {:.5}",i, j-1 , aa[[i, j-1]]);
-
                         func_market_rate(self, i, j, ncols);
-
-                        let bb = self.market_rate.as_ref().unwrap();
-                        //println!("i = {}; j = {} ; market = {:.5}",i, j , bb[[i, j]]);
                     }
                 }
-
-
             }
-
-        } else if method == "flux".to_string() {
+        }
+        else if method == "flux".to_string() {
             // Implementation for "flux" method
             // Implementation for "stock" method
             // stock amort
             for i in 0..nrows {
                 for j in 0..ncols {
-                    func_stock_amort(self, i, j);
-                    func_stock_instal(self, i, j);
-                    func_stock_var(self, i, j, ncols);
+                    flux_func_stock_var(self, i, j, ncols); // new prod
                     func_stock_var_instal(self, i, j);
+
+                    flux_func_stock_amort(self, i, j);
+                    func_stock_instal(self, i, j);
                 }
 
                 for j in (0..ncols).rev() {
                     if j > 0 {
-                        //println!("\n");
                         func_ftp_rate(self, i, j-1, ncols);
                         func_ftp_int(self, i, j-1, ncols);
                         func_market_rate(self, i, j, ncols);
-
-                        let bb = self.market_rate.as_ref().unwrap();
-                        //println!("i = {}; j = {} ; market = {:.5}",i, j , bb[[i, j]]);
                     }
                 }
             }

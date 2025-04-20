@@ -5,17 +5,11 @@ use utils::get_shape;
 use utils::print_array2;
 use utils::extract_anti_diagonal_rect2;
 
-mod core_ftp;
-use core_ftp::m_step_1_outstanding_amort;
-use core_ftp::m_step_2_outstanding_instalment;
-use core_ftp::m_step_3_stockvar;
-use core_ftp::m_step_4_stockvar_instalment;
-use core_ftp::m_step_5_ftp_rate;
-use core_ftp::rebuilt_market_rate;
-
 mod holding_struct;
 
 mod method_stock;
+mod method_flux;
+mod common_funcs;
 
 use crate::holding_struct::FtpResult;
 
@@ -40,13 +34,26 @@ fn main() {
     [0.01360, 0.01460, 0.01660, 0.01770],
     [0.01430, 0.01530, 0.01730, 0.01840],
     [0.01470, 0.01570, 0.01780, 0.01890],
-    [0.01500, 0.01600, 0.01820, 0.01920]];                                                   
+    [0.01500, 0.01600, 0.01820, 0.01920]];
+
+    let mut v_outstanding2 = v_outstanding.clone();
+    let mut m_profile2 = m_profile.clone();
+    let mut m_taux2 = m_taux.clone();
 
     let mut ftp_res1 = FtpResult::new(v_outstanding, m_profile, m_taux);
     ftp_res1.compute("stock".to_string());
     
-    println!("{:.6}\n", ftp_res1.ftp_rate.unwrap());
-    println!("{:.6}\n", ftp_res1.market_rate.unwrap());
-    println!("{:.6}", ftp_res1.ftp_int.unwrap());
+    //println!("{:.6}\n", ftp_res1.ftp_rate.unwrap());
+    //println!("{:.6}\n", ftp_res1.market_rate.unwrap());
+    //println!("{:.6}", ftp_res1.ftp_int.unwrap());
+    //println!("test");
+
+    let mut ftp_res2 = FtpResult::new(v_outstanding2, m_profile2, m_taux2);
+    ftp_res2.compute("flux".to_string());
+
+    println!("{:.6}\n", ftp_res2.ftp_rate.unwrap());
+    println!("{:.6}\n", ftp_res2.market_rate.unwrap());
+    println!("{:.6}\n", ftp_res2.varstock_amort.unwrap());
+    println!("{:.6}", ftp_res2.stock_amort.unwrap());
     println!("test");
 }
