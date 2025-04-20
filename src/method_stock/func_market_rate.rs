@@ -40,14 +40,12 @@ pub fn func_market_rate(ftp_result: &mut FtpResult,
             }
 
             for k in colnum+1..ncols {
-                println!("test = {}", m_stock_instal[[rownum, k]]);
-                println!("test2 = {}", market_rate[[rownum, k]]);
                 c = c + ( m_stock_instal[[rownum, k]] * market_rate[[rownum, k]] );
             }
-            println!("a = {:.5}", a);
-            println!("b = {:.1}", b);
-            println!("c = {:.5}", c);
-            println!("d = {:.5}", d);
+            //println!("a = {:.5}", a);
+            //println!("b = {:.1}", b);
+            //println!("c = {:.5}", c);
+            //println!("d = {:.5}", d);
             if d != 0.0 {
                 market_rate[[rownum, colnum]] = ((a * b) - c) / d;
             }

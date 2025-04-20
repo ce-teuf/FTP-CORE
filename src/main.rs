@@ -45,8 +45,8 @@ fn main() {
     let mut ftp_res1 = FtpResult::new(v_outstanding, m_profile, m_taux);
     ftp_res1.compute("stock".to_string());
     
-    println!("{:.5}", ftp_res1.ftp_rate.unwrap());
-    println!("{:.5}", ftp_res1.market_rate.unwrap());
-    
+    println!("{:.6}\n", ftp_res1.ftp_rate.unwrap());
+    println!("{:.6}\n", ftp_res1.market_rate.unwrap());
+    println!("{:.6}", ftp_res1.ftp_int.unwrap());
     
 }

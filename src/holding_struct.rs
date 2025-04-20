@@ -13,13 +13,15 @@ pub struct FtpResult {
     pub market_rate: Option<Array2<f64>>,
 }
 
-use crate::method_stock::{func_ftp_rate::func_ftp_rate, 
-    func_market_rate, 
-    func_stock_amort::func_stock_amort, 
+use crate::method_stock::{func_ftp_rate::func_ftp_rate,
+                          func_ftp_int::func_ftp_int,
+                          func_market_rate,
+    func_stock_amort::func_stock_amort,
     func_stock_instal::func_stock_instal, 
     func_stock_var::func_stock_var, 
     func_stock_var_instal::func_stock_var_instal,
-    func_market_rate::func_market_rate};
+    func_market_rate::func_market_rate
+};
 
 impl FtpResult {
 
@@ -64,7 +66,6 @@ impl FtpResult {
         }
     }
 
-    
     pub fn compute(&mut self, method: String) {
         // Check dimensions
         self.check_dims();
@@ -82,27 +83,50 @@ impl FtpResult {
                     func_stock_instal(self, i, j);
                     func_stock_var(self, i, j, ncols);
                     func_stock_var_instal(self, i, j);
-                    //func_ftp_rate(self, i, j, ncols);
-                    // func_market_rate(self, i, j, ncols);
                 }
-                println!("row = {}", i);
+
                 for j in (0..ncols).rev() {
                     if j > 0 {
+                        //println!("\n");
                         func_ftp_rate(self, i, j-1, ncols);
+                        func_ftp_int(self, i, j-1, ncols);
                         let aa = self.ftp_rate.as_ref().unwrap();
-                        println!("\ni = {}; j = {} ; ftp = {:.5}",i, j , aa[[i, j]]);
+                        //println!("i = {}; j-1 = {} ; ftp = {:.5}",i, j-1 , aa[[i, j-1]]);
 
                         func_market_rate(self, i, j, ncols);
 
                         let bb = self.market_rate.as_ref().unwrap();
-                        println!("i = {}; j = {} ; market = {:.5}",i, j , bb[[i, j]]);
+                        //println!("i = {}; j = {} ; market = {:.5}",i, j , bb[[i, j]]);
                     }
-                    
                 }
+
+
             }
 
         } else if method == "flux".to_string() {
             // Implementation for "flux" method
+            // Implementation for "stock" method
+            // stock amort
+            for i in 0..nrows {
+                for j in 0..ncols {
+                    func_stock_amort(self, i, j);
+                    func_stock_instal(self, i, j);
+                    func_stock_var(self, i, j, ncols);
+                    func_stock_var_instal(self, i, j);
+                }
+
+                for j in (0..ncols).rev() {
+                    if j > 0 {
+                        //println!("\n");
+                        func_ftp_rate(self, i, j-1, ncols);
+                        func_ftp_int(self, i, j-1, ncols);
+                        func_market_rate(self, i, j, ncols);
+
+                        let bb = self.market_rate.as_ref().unwrap();
+                        //println!("i = {}; j = {} ; market = {:.5}",i, j , bb[[i, j]]);
+                    }
+                }
+            }
         } else {
             // Handle other methods or errors
         }
