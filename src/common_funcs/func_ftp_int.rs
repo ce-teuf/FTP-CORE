@@ -1,5 +1,3 @@
-use std::sync::RwLock;
-
 use crate::holding_struct::FtpResult;
 
 pub fn func_ftp_int(ftp_result: &mut FtpResult,
@@ -43,19 +41,17 @@ pub fn func_ftp_int(ftp_result: &mut FtpResult,
             for k in colnum..ncols-1 {
                 num = num + (m_varstock_instal[[0, k+1]] * m_input_rate[[0, k]]);
             }
-            //println!("num = {}", num);
-            //println!("denum = {}", denum);
 
             ftp_int[[rownum, colnum]] = num/12.0;
 
         }
         else { // rownum > 0
-                //println!("rownum = {} ; colnum = {}; ncols = {}", rownum, colnum, ncols);
+
                 let mut num1 = 0.0;
                 let mut num2 = 0.0;
 
                 for k in colnum..ncols-1 {
-                    //println!("ftp test = {}", m_input_rate[[rownum, k]]);
+
                     num1 += m_varstock_instal[[rownum, k+1]] * m_input_rate[[rownum, k]];
                     if k > colnum {
                         num2 += m_stock_instal[[rownum-1, k+1]] * m_market_rate[[rownum-1, k+1]];
@@ -63,13 +59,8 @@ pub fn func_ftp_int(ftp_result: &mut FtpResult,
                     
                     
                 }
-                //println!("num1 = {:.5}", num1);
-                //println!("num2 = {:.5}", num2);
-                //println!("denum1 = {:.5}", denum1);
-                //println!("denum2 = {:.5}", denum2);
 
             ftp_int[[rownum, colnum]] = (num1+num2) / 12.0;
-
 
             }
 

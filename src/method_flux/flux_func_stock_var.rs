@@ -5,8 +5,7 @@ fn max_zero(a: &f64) -> f64 {
 }
 pub fn flux_func_stock_var(ftp_result: &mut FtpResult,
                          rownum: usize, 
-                         colnum: usize,
-                         ncols: usize) {
+                         colnum: usize) {
 
 
     let v_oust = &ftp_result.input_outstanding;
@@ -24,7 +23,6 @@ pub fn flux_func_stock_var(ftp_result: &mut FtpResult,
             if colnum == 0 {
                 let mut front_amt: f64 = 0.0;
                 for i in 1..(rownum+1) {
-                    //println!("i = {}", i);
                     front_amt = front_amt + varstock_amort[[rownum-i, i]];
                 }
                 front_amt = v_oust[[rownum, 0]] - front_amt;

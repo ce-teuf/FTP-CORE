@@ -1,5 +1,3 @@
-use std::sync::RwLock;
-
 use crate::holding_struct::FtpResult;
 
 pub fn func_market_rate(ftp_result: &mut FtpResult, 
@@ -30,10 +28,10 @@ pub fn func_market_rate(ftp_result: &mut FtpResult,
             market_rate[[rownum, colnum]] = m_input_rate[[rownum, colnum-1]];
 
         } else { // colnum < ncols - 1
-            let mut a = m_ftp_rate[[rownum, colnum-1]];
+            let a = m_ftp_rate[[rownum, colnum-1]];
             let mut b = 0.0;
             let mut c = 0.0;
-            let mut d = m_stock_instal[[rownum, colnum]];
+            let d = m_stock_instal[[rownum, colnum]];
             
             for k in colnum..ncols {
                 b = b + m_stock_instal[[rownum, k]];
@@ -42,10 +40,7 @@ pub fn func_market_rate(ftp_result: &mut FtpResult,
             for k in colnum+1..ncols {
                 c = c + ( m_stock_instal[[rownum, k]] * market_rate[[rownum, k]] );
             }
-            //println!("a = {:.5}", a);
-            //println!("b = {:.1}", b);
-            //println!("c = {:.5}", c);
-            //println!("d = {:.5}", d);
+
             if d != 0.0 {
                 market_rate[[rownum, colnum]] = ((a * b) - c) / d;
             }

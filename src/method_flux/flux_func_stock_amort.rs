@@ -1,6 +1,6 @@
 use ndarray::s;
 use crate::holding_struct::FtpResult;
-use crate::utils::{extract_anti_diagonal_rect, extract_anti_diagonal_rect2};
+use crate::utils::extract_anti_diagonal_rect2;
 
 pub fn flux_func_stock_amort(ftp_result: &mut FtpResult, rownum: usize, colnum: usize) {
 
@@ -12,7 +12,7 @@ pub fn flux_func_stock_amort(ftp_result: &mut FtpResult, rownum: usize, colnum: 
         }
     };
 
-    let (nrows, ncols) = m_prod.dim();
+    let (_, ncols) = m_prod.dim();
     // println!("ok");
     // Check if stock_amort is Some and mutate it
     if let Some(stock_amort) = &mut ftp_result.stock_amort {

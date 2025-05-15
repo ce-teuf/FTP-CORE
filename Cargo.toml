@@ -1,7 +1,14 @@
 [package]
-name = "FTP-CORE"
+name = "ftp_core"
 version = "0.1.0"
 edition = "2021"
 
+[lib]
+name = "ftp_core"
+crate-type = ["rlib", "cdylib"]
+
 [dependencies]
-ndarray = "0.16.1"
+ndarray = "0.15"
+numpy = "0.20.0"
+cffi = "0.1.7"
+pyo3 = {version = "0.20", features = ["extension-module"]}

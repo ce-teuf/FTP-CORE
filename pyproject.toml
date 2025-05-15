@@ -1,0 +1,16 @@
+[tool.maturin]
+features = ["pyo3/extension-module"]
+include-package-data = true
+
+[project]
+name = "FTP_CORE"
+version = "0.1.0"
+description = "Your project description"
+authors = [{ name = "Your Name", email = "your.email@example.com" }]
+dependencies = [
+    "cffi",  # Add this line to include cffi as a dependency
+]
+
+[build-system]
+requires = ["maturin>=0.12,<0.13"]
+build-backend = "maturin"
