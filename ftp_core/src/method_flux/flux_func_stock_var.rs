@@ -12,7 +12,7 @@ pub fn flux_func_stock_var(ftp_result: &mut FtpResult, rownum: usize, colnum: us
 
     let m_profile = &ftp_result.input_profiles;
 
-    // println!("ok");
+    println!("ok");
     // Check if stock_amort is Some and mutate it
     if let Some(varstock_amort) = &mut ftp_result.varstock_amort {
         if rownum == 0 {
