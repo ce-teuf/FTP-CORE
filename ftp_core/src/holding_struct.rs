@@ -165,9 +165,9 @@ impl FtpResult {
     
     pub fn new(input_outstanding: Array2<f64>, input_profiles: Array2<f64>, input_rate: Array2<f64>) -> Self {
         Self {
-            input_outstanding: input_outstanding,
-            input_profiles: input_profiles,
-            input_rate: input_rate,
+            input_outstanding,
+            input_profiles,
+            input_rate,
             stock_amort: None,
             stock_instal: None,
             varstock_amort: None,

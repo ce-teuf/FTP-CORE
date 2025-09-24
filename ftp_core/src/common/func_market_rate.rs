@@ -38,7 +38,7 @@ pub fn func_market_rate(ftp_result: &mut FtpResult,
             }
 
             for k in colnum+1..ncols {
-                c += ( m_stock_instal[[rownum, k]] * market_rate[[rownum, k]] );
+                c += m_stock_instal[[rownum, k]] * market_rate[[rownum, k]];
             }
 
             if d != 0.0 {

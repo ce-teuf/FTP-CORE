@@ -39,7 +39,7 @@ pub fn func_ftp_rate(ftp_result: &mut FtpResult,
             let mut denum = 0.0;
 
             for k in colnum..ncols-1 {
-                num += (m_varstock_instal[[0, k+1]] * m_input_rate[[0, k]]);
+                num += m_varstock_instal[[0, k+1]] * m_input_rate[[0, k]];
                 denum += m_varstock_instal[[0, k+1]];
             }
 

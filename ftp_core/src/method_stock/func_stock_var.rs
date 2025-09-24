@@ -16,10 +16,7 @@ pub fn func_stock_var(ftp_result: &mut FtpResult,
     // println!("ok");
     // Check if stock_amort is Some and mutate it
     if let Some(varstock_amort) = &mut ftp_result.varstock_amort {
-        if rownum == 0 {
-            varstock_amort[[rownum, colnum]] = m[[rownum, colnum]];
-        }
-        else if colnum == ncols - 1 {
+        if rownum == 0 || colnum == ncols - 1 {
             varstock_amort[[rownum, colnum]] = m[[rownum, colnum]];
         }
         else {
