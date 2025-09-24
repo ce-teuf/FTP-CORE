@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  # 1. Tester le noyau Rust
+  test-core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: rustup update stable && rustup default stable
+      - name: Test ftp-core
+        run: cd ftp-core && cargo test --verbose
+
+  # 2. Builder l'add-in Excel (nécessite Windows pour la .dll)
+  build-excel:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: rustup update stable && rustup default stable
+      - name: Build Excel add-in
+        run: cd excel-addin && cargo build --release
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: excel-addin-dll
+          path: excel-addin/target/release/votre_projet_excel.dll
+
+  # 3. Builder la bibliothèque Python
+  build-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: rustup update stable && rustup default stable
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install maturin
+        run: pip install maturin
+      - name: Build Python wheel
+        run: cd python-lib && maturin build --release
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: python-wheel
+          path: python-lib/target/wheels/*.whl
+
+  # 4. Vérifier le formatage (optionnel)
+  check-fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+  # 5. Vérifier le linting (clippy)
+  check-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: rustup update stable && rustup default stable
+      - name: Run clippy
+        run: cargo clippy --workspace -- -D warnings

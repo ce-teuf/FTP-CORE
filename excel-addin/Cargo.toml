@@ -1,0 +1,10 @@
+[package]
+name = "ftp-core-excel"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]  # Pour générer une lib C
+
+[dependencies]
+ftp-core = { path = "../ftp-core" }

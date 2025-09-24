@@ -1,0 +1,92 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Déclenché quand vous pushez un tag comme v0.1.0
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  # 1. Publier la release GitHub avec la .dll et le .whl
+  create-release:
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+  # 2. Builder et uploader la .dll pour Excel
+  release-excel:
+    needs: create-release
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: rustup update stable && rustup default stable
+      - name: Build Excel add-in
+        run: cd excel-addin && cargo build --release
+      - name: Upload DLL to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: excel-addin/target/release/votre_projet_excel.dll
+          asset_name: votre_projet_excel.dll
+          asset_content_type: application/octet-stream
+
+  # 3. Publier la lib Python sur PyPI
+  release-python:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: rustup update stable && rustup default stable
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install maturin
+        run: pip install maturin
+      - name: Build and publish to PyPI
+        run: cd python-lib && maturin publish --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+
+  # 4. Builder et uploader le wheel Python dans la release GitHub
+  release-python-wheel:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust
+        run: rustup update stable && rustup default stable
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install maturin
+        run: pip install maturin
+      - name: Build wheel
+        run: cd python-lib && maturin build --release
+      - name: Upload wheel to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: python-lib/target/wheels/*.whl
+          asset_name: votre_projet_python.whl
+          asset_content_type: application/octet-stream
