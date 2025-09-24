@@ -35,14 +35,14 @@ jobs:
       - name: Install Rust
         run: rustup update stable && rustup default stable
       - name: Build Excel add-in
-        run: cd excel_addin && cargo build --release
+        run: cd ftp_core_excel && cargo build --release
       - name: Upload DLL to Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: excel_addin/target/release/votre_projet_excel.dll
+          asset_path: ftp_core_excel/target/release/votre_projet_excel.dll
           asset_name: votre_projet_excel.dll
           asset_content_type: application/octet-stream
 
@@ -61,7 +61,7 @@ jobs:
       - name: Install maturin
         run: pip install maturin
       - name: Build and publish to PyPI
-        run: cd python_lib && maturin publish --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
+        run: cd ftp_core_python && maturin publish --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
 
@@ -80,13 +80,13 @@ jobs:
       - name: Install maturin
         run: pip install maturin
       - name: Build wheel
-        run: cd python_lib && maturin build --release
+        run: cd ftp_core_python && maturin build --release
       - name: Upload wheel to Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: python_lib/target/wheels/*.whl
+          asset_path: ftp_core_python/target/wheels/*.whl
           asset_name: votre_projet_python.whl
           asset_content_type: application/octet-stream

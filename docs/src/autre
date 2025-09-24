@@ -1,0 +1,26 @@
+### 9. Script de build pour la documentation
+
+**`scripts/build_docs.sh`** :
+```bash
+#!/bin/bash
+
+echo "🔨 Building unified documentation..."
+
+# Build Rust docs
+echo "📚 Building Rust documentation..."
+cargo doc --workspace --no-deps
+
+# Build Python docs (si applicable)
+echo "🐍 Building Python documentation..."
+cd python_lib
+python -m pdoc --html --output-dir ../docs/api/python ftp_core_python
+
+cd ..
+
+# Build MkDocs site
+echo "🌐 Building MkDocs site..."
+cd docs
+mkdocs build
+
+echo "✅ Documentation built successfully!"
+```

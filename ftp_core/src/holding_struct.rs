@@ -1,3 +1,31 @@
+/// Structure principale contenant tous les résultats des calculs FTP
+///
+/// # Fields
+///
+/// - `input_outstanding`: Montants outstanding
+/// - `input_profiles`: Profils de flux
+/// - `input_rate`: Taux d'entrée
+/// - `stock_amort`: Stock amorti (optionnel)
+/// - `stock_instal`: Stock installé (optionnel)
+/// - `varstock_amort`: Stock variable amorti (optionnel)
+/// - `varstock_instal`: Stock variable installé (optionnel)
+/// - `ftp_rate`: Taux FTP calculé (optionnel)
+/// - `ftp_int`: Intérêts FTP calculés (optionnel)
+/// - `market_rate`: Taux de marché (optionnel)
+///
+/// # Exemples
+///
+/// ```
+/// use ftp_core::FtpResult;
+/// use ndarray::array;
+///
+/// let result = FtpResult::new(
+///     array![[1000.0]],
+///     array![[1.0, 0.5, 0.2]],
+///     array![[0.01, 0.02]]
+/// );
+/// ```
+///
 use crate::method_flux::flux_func_stock_amort::flux_func_stock_amort;
 use crate::method_flux::flux_func_stock_var::flux_func_stock_var;
 use ndarray::Array2;

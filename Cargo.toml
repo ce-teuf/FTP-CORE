@@ -1,7 +1,7 @@
 [workspace]
 members = [
     "ftp_core",
-    "excel_addin",
-    "python_lib"
+    "ftp_core_excel",
+    "ftp_core_python"
 ]
 resolver = "2"

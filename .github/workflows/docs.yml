@@ -1,0 +1,48 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'docs/**', 'ftp_core/**', '../../ftp_core_python/**', '../../ftp_core_excel/**', 'Cargo.toml']
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Rust
+        run: rustup update stable && rustup default stable
+
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material mkdocstrings mkdocstrings-python
+          cargo install cargo-docs
+
+      - name: Build Rust documentation
+        run: |
+          cargo doc --workspace --no-deps
+          mkdir -p docs/api
+          cp -r target/doc/* docs/api/
+
+      - name: Build MkDocs site
+        run: |
+          cd docs
+          mkdocs build --verbose
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/site
+          publish_branch: gh-pages

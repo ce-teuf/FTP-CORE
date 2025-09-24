@@ -1,3 +1,27 @@
+//! # FTP Core Library
+//!
+//! Bibliothèque principale pour les calculs FTP (Funds Transfer Pricing).
+//!
+//! ## Fonctionnalités principales
+//!
+//! - Calcul des taux FTP
+//! - Gestion des matrices de flux
+//! - Méthodes stock et flux
+//!
+//! ## Exemple d'utilisation
+//!
+//! ```rust
+//! use ftp_core::FtpResult;
+//! use ndarray::array;
+//!
+//! let outstanding = array![[1000.0]];
+//! let profiles = array![[1.0, 0.5, 0.2]];
+//! let rates = array![[0.01, 0.02]];
+//!
+//! let mut ftp_result = FtpResult::new(outstanding, profiles, rates);
+//! ftp_result.compute("stock".to_string());
+//! ```
+
 use ndarray::array;
 // use pyo3::prelude::*;
 mod utils;
@@ -13,7 +37,16 @@ pub use crate::holding_struct::FtpResult;
 
 // use ndarray::Array2;
 //use numpy::{PyReadonlyArray2, PyArray2};
-
+/// Point d'entrée principal de l'application
+///
+/// # Exemples
+///
+/// ```
+/// use ftp_core::mainx;
+///
+/// // Exécute les calculs avec des données d'exemple
+/// mainx();
+/// ```
 pub fn mainx() {
     let v_outstanding = array![[1000.0], [1200.0], [1350.0], [1250.0], [1380.0]];
 

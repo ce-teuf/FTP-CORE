@@ -12,7 +12,7 @@ YELLOW = \033[0;33m
 BLUE = \033[0;34m
 NC = \033[0m # No Color
 
-.PHONY: all test unit integration detailed clean help bench doc tarpaulin
+.PHONY: all test unit integration detailed clean help bench doc tarpaulin docs docs-build docs-serve docs-deploy
 
 # Cible par défaut
 all: test
@@ -106,3 +106,23 @@ setup:
 	@rustup component add clippy
 	@rustup component add rustfmt
 	@cargo install cargo-tarpaulin 2>/dev/null || echo "$(YELLOW)tarpaulin déjà installé ou échec d'installation$(NC)"
+
+# Build documentation
+docs-build:
+	@echo "$(BLUE)Building documentation...$(NC)"
+	@./scripts/build_docs.sh
+
+# Serve documentation locally
+docs-serve:
+	@echo "$(BLUE)Serving documentation locally...$(NC)"
+	@cd docs && mkdocs serve
+
+# Deploy documentation
+docs-deploy:
+	@echo "$(BLUE)Deploying documentation...$(NC)"
+	@cd docs && mkdocs gh-deploy
+
+# Open documentation
+docs-open:
+	@echo "$(BLUE)Opening documentation...$(NC)"
+	@open docs/site/index.html
