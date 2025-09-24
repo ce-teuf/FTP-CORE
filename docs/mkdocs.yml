@@ -1,8 +1,8 @@
 site_name: FTP Calculator Documentation
 site_description: Documentation unifiée pour FTP Core, Python Library et Excel Add-in
-site_url: https://votre-username.github.io/votre-repo
-repo_url: https://github.com/votre-username/votre-repo
-repo_name: votre-username/votre-repo
+site_url: https://ce-teuf.github.io/FTP_CALCULATOR
+repo_url: https://github.com/ce-teuf/FTP_CALCULATOR/
+repo_name: ce-teuf/FTP_CALCULATOR
 
 nav:
   - Accueil: index.md
