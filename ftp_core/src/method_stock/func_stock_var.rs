@@ -19,13 +19,11 @@ pub fn func_stock_var(ftp_result: &mut FtpResult,
         if rownum == 0 {
             varstock_amort[[rownum, colnum]] = m[[rownum, colnum]];
         }
+        else if colnum == ncols - 1 {
+            varstock_amort[[rownum, colnum]] = m[[rownum, colnum]];
+        }
         else {
-            if colnum == ncols - 1 {
-                varstock_amort[[rownum, colnum]] = m[[rownum, colnum]];
-            }
-            else {
-                varstock_amort[[rownum, colnum]] = m[[rownum, colnum]] - m[[rownum-1, colnum+1]];
-            }
+            varstock_amort[[rownum, colnum]] = m[[rownum, colnum]] - m[[rownum-1, colnum+1]];
         }
 
     } else {

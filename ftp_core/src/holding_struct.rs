@@ -186,7 +186,7 @@ impl FtpResult {
 
         self.init_arrays(nrows, ncols);
 
-        if method == "stock".to_string() {
+        if method == "stock" {
             // Implementation for "stock" method
             for i in 0..nrows {
                 for j in 0..ncols {
@@ -205,7 +205,7 @@ impl FtpResult {
                 }
             }
         }
-        else if method == "flux".to_string() {
+        else if method == "flux" {
             // Implementation for "flux" method
             for i in 0..nrows {
                 for j in 0..ncols {

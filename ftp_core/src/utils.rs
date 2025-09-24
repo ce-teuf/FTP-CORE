@@ -2,7 +2,7 @@ use ndarray::ArrayBase;
 use ndarray::prelude::*;
 
 
-pub fn extract_anti_diagonal_rect2<'a, T>(arr: &'a ArrayBase<T, Ix2>) -> Vec<f64> 
+pub fn extract_anti_diagonal_rect2<T>(arr: &ArrayBase<T, Ix2>) -> Vec<f64>
 where
     T: ndarray::Data<Elem = f64>,
 {

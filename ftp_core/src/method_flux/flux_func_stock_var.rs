@@ -19,19 +19,16 @@ pub fn flux_func_stock_var(ftp_result: &mut FtpResult,
         if rownum == 0 {
             varstock_amort[[rownum, colnum]] = m_profile[[rownum, colnum]] * v_oust[[rownum, 0]];
         }
+        else if colnum == 0 {
+            let mut front_amt: f64 = 0.0;
+            for i in 1..(rownum + 1) {
+                front_amt += varstock_amort[[rownum - i, i]];
+            }
+            front_amt = v_oust[[rownum, 0]] - front_amt;
+            varstock_amort[[rownum, colnum]] = max_zero(&front_amt);
+        }
         else {
-            if colnum == 0 {
-                let mut front_amt: f64 = 0.0;
-                for i in 1..(rownum+1) {
-                    front_amt = front_amt + varstock_amort[[rownum-i, i]];
-                }
-                front_amt = v_oust[[rownum, 0]] - front_amt;
-                varstock_amort[[rownum, colnum]] = max_zero(&front_amt);
-
-            }
-            else {
-                varstock_amort[[rownum, colnum]] = varstock_amort[[rownum, 0]] * m_profile[[rownum, colnum]] ;
-            }
+            varstock_amort[[rownum, colnum]] = varstock_amort[[rownum, 0]] * m_profile[[rownum, colnum]] ;
         }
 
     } else {

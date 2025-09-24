@@ -14,7 +14,7 @@ pub use crate::holding_struct::FtpResult;
 //pub use crate::holding_struct::PyFtpResult;
 
 
-use ndarray::Array2;
+// use ndarray::Array2;
 //use numpy::{PyReadonlyArray2, PyArray2};
 
 

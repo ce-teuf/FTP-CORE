@@ -39,7 +39,7 @@ pub fn func_ftp_int(ftp_result: &mut FtpResult,
             let mut num = 0.0;
 
             for k in colnum..ncols-1 {
-                num = num + (m_varstock_instal[[0, k+1]] * m_input_rate[[0, k]]);
+                num += (m_varstock_instal[[0, k+1]] * m_input_rate[[0, k]]);
             }
 
             ftp_int[[rownum, colnum]] = num/12.0;

@@ -34,11 +34,11 @@ pub fn func_market_rate(ftp_result: &mut FtpResult,
             let d = m_stock_instal[[rownum, colnum]];
             
             for k in colnum..ncols {
-                b = b + m_stock_instal[[rownum, k]];
+                b += m_stock_instal[[rownum, k]];
             }
 
             for k in colnum+1..ncols {
-                c = c + ( m_stock_instal[[rownum, k]] * market_rate[[rownum, k]] );
+                c += ( m_stock_instal[[rownum, k]] * market_rate[[rownum, k]] );
             }
 
             if d != 0.0 {
