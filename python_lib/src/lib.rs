@@ -10,5 +10,6 @@ fn py_calculer(a: f64, b: f64) -> PyResult<f64> {
 fn ftp_core_python(py: Python, m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(py_calculer, m)?)?;
     println!("Hello, world!");
+    println!("Hello, world!2");
     Ok(())
 }
