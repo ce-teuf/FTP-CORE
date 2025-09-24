@@ -1,10 +1,6 @@
 use crate::holding_struct::FtpResult;
 
-pub fn func_ftp_rate(ftp_result: &mut FtpResult, 
-                         rownum: usize, 
-                         colnum: usize,
-                         ncols: usize) {
-
+pub fn func_ftp_rate(ftp_result: &mut FtpResult, rownum: usize, colnum: usize, ncols: usize) {
     let m_input_rate = &ftp_result.input_rate;
 
     let m_stock_instal = match &ftp_result.stock_instal {
@@ -32,57 +28,48 @@ pub fn func_ftp_rate(ftp_result: &mut FtpResult,
     };
 
     if let Some(ftp_rate) = &mut ftp_result.ftp_rate {
-
         if rownum == 0 {
-
             let mut num = 0.0;
             let mut denum = 0.0;
 
-            for k in colnum..ncols-1 {
-                num += m_varstock_instal[[0, k+1]] * m_input_rate[[0, k]];
-                denum += m_varstock_instal[[0, k+1]];
+            for k in colnum..ncols - 1 {
+                num += m_varstock_instal[[0, k + 1]] * m_input_rate[[0, k]];
+                denum += m_varstock_instal[[0, k + 1]];
             }
 
             if denum != 0.0 {
-                ftp_rate[[rownum, colnum]] = num/denum;
-            }
-            else {
+                ftp_rate[[rownum, colnum]] = num / denum;
+            } else {
                 ftp_rate[[rownum, colnum]] = 0.0;
             }
+        } else {
+            // rownum > 0
+            let mut num1 = 0.0;
+            let mut num2 = 0.0;
 
-        }
-        else { // rownum > 0
-                let mut num1 = 0.0;
-                let mut num2 = 0.0;
+            let mut denum1 = 0.0;
+            let mut denum2 = 0.0;
 
-                let mut denum1 = 0.0;
-                let mut denum2 = 0.0;
-
-                for k in colnum..ncols-1 {
-
-                    num1 += m_varstock_instal[[rownum, k+1]] * m_input_rate[[rownum, k]];
-                    denum1 += m_varstock_instal[[rownum, k+1]];
-                    if k > colnum {
-                        num2 += m_stock_instal[[rownum-1, k+1]] * m_market_rate[[rownum-1, k+1]];
-                        denum2 += m_stock_instal[[rownum-1, k+1]];
-                    }
-                    
-                    
-                }
-
-                if denum1 + denum2 != 0.0 {
-                    ftp_rate[[rownum, colnum]] = (num1+num2)/(denum1+denum2);
-                }
-                else {
-                    ftp_rate[[rownum, colnum]] = 0.0;
+            for k in colnum..ncols - 1 {
+                num1 += m_varstock_instal[[rownum, k + 1]] * m_input_rate[[rownum, k]];
+                denum1 += m_varstock_instal[[rownum, k + 1]];
+                if k > colnum {
+                    num2 +=
+                        m_stock_instal[[rownum - 1, k + 1]] * m_market_rate[[rownum - 1, k + 1]];
+                    denum2 += m_stock_instal[[rownum - 1, k + 1]];
                 }
             }
 
+            if denum1 + denum2 != 0.0 {
+                ftp_rate[[rownum, colnum]] = (num1 + num2) / (denum1 + denum2);
+            } else {
+                ftp_rate[[rownum, colnum]] = 0.0;
+            }
+        }
     } else {
         eprintln!("ftp_rate is None, cannot update value.");
     }
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -122,11 +109,7 @@ mod tests {
 
     #[test]
     fn test_func_ftp_rate_handles_none_values() {
-        let mut ftp_result = FtpResult::new(
-            array![[1000.0]],
-            array![[1.0, 0.5]],
-            array![[0.01]]
-        );
+        let mut ftp_result = FtpResult::new(array![[1000.0]], array![[1.0, 0.5]], array![[0.01]]);
 
         // Ne pas initialiser les matrices optionnelles
         func_ftp_rate(&mut ftp_result, 0, 0, 2);
@@ -135,4 +118,3 @@ mod tests {
         // (Le test passe si aucune panique ne se produit)
     }
 }
-

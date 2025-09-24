@@ -26,7 +26,7 @@ mod tests {
         let mut ftp_result = FtpResult::new(
             array![[1000.0]],
             array![[1.0, 0.5, 0.2]],
-            array![[0.01, 0.02]]
+            array![[0.01, 0.02]],
         );
 
         let (nrows, ncols) = ftp_result.input_profiles.dim();

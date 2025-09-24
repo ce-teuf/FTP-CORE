@@ -1,10 +1,6 @@
 use crate::holding_struct::FtpResult;
 
-pub fn func_stock_instal(ftp_result: &mut FtpResult, 
-                         rownum: usize, 
-                         colnum: usize) {
-
-
+pub fn func_stock_instal(ftp_result: &mut FtpResult, rownum: usize, colnum: usize) {
     let m = match &ftp_result.stock_amort {
         Some(stock_amort) => stock_amort,
         None => {
@@ -16,9 +12,8 @@ pub fn func_stock_instal(ftp_result: &mut FtpResult,
     // Check if stock_amort is Some and mutate it
     if let Some(stock_instal) = &mut ftp_result.stock_instal {
         if colnum > 0 {
-            stock_instal[[rownum, colnum]] = m[[rownum, colnum-1]] - m[[rownum, colnum]];
+            stock_instal[[rownum, colnum]] = m[[rownum, colnum - 1]] - m[[rownum, colnum]];
         }
-
     } else {
         // Handle the case where stock_amort is None, if necessary
         eprintln!("stock_instal is None, cannot update value.");
@@ -36,7 +31,7 @@ mod tests {
         let mut ftp_result = FtpResult::new(
             array![[1000.0]],
             array![[1.0, 0.5, 0.2]],
-            array![[0.01, 0.02]]
+            array![[0.01, 0.02]],
         );
 
         let (nrows, ncols) = ftp_result.input_profiles.dim();
@@ -62,7 +57,7 @@ mod tests {
         let mut ftp_result = FtpResult::new(
             array![[1000.0]],
             array![[1.0, 0.5, 0.2]],
-            array![[0.01, 0.02]]
+            array![[0.01, 0.02]],
         );
 
         let (nrows, ncols) = ftp_result.input_profiles.dim();

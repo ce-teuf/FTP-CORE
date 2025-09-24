@@ -1,10 +1,6 @@
 use crate::holding_struct::FtpResult;
 
-pub fn func_ftp_int(ftp_result: &mut FtpResult,
-                         rownum: usize, 
-                         colnum: usize,
-                         ncols: usize) {
-
+pub fn func_ftp_int(ftp_result: &mut FtpResult, rownum: usize, colnum: usize, ncols: usize) {
     let m_input_rate = &ftp_result.input_rate;
 
     let m_stock_instal = match &ftp_result.stock_instal {
@@ -31,38 +27,32 @@ pub fn func_ftp_int(ftp_result: &mut FtpResult,
         }
     };
 
-
     if let Some(ftp_int) = &mut ftp_result.ftp_int {
-
         if rownum == 0 {
             //println!("row0 - rownum = {} ; colnum = {}; ncols = {}", rownum, colnum, ncols);
             let mut num = 0.0;
 
-            for k in colnum..ncols-1 {
-                num += m_varstock_instal[[0, k+1]] * m_input_rate[[0, k]];
+            for k in colnum..ncols - 1 {
+                num += m_varstock_instal[[0, k + 1]] * m_input_rate[[0, k]];
             }
 
-            ftp_int[[rownum, colnum]] = num/12.0;
+            ftp_int[[rownum, colnum]] = num / 12.0;
+        } else {
+            // rownum > 0
 
-        }
-        else { // rownum > 0
+            let mut num1 = 0.0;
+            let mut num2 = 0.0;
 
-                let mut num1 = 0.0;
-                let mut num2 = 0.0;
-
-                for k in colnum..ncols-1 {
-
-                    num1 += m_varstock_instal[[rownum, k+1]] * m_input_rate[[rownum, k]];
-                    if k > colnum {
-                        num2 += m_stock_instal[[rownum-1, k+1]] * m_market_rate[[rownum-1, k+1]];
-                    }
-                    
-                    
+            for k in colnum..ncols - 1 {
+                num1 += m_varstock_instal[[rownum, k + 1]] * m_input_rate[[rownum, k]];
+                if k > colnum {
+                    num2 +=
+                        m_stock_instal[[rownum - 1, k + 1]] * m_market_rate[[rownum - 1, k + 1]];
                 }
-
-            ftp_int[[rownum, colnum]] = (num1+num2) / 12.0;
-
             }
+
+            ftp_int[[rownum, colnum]] = (num1 + num2) / 12.0;
+        }
 
     // ftp_rate[[rownum, colnum]] = m_input_rate[[rownum, colnum]];
     } else {

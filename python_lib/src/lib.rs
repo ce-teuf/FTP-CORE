@@ -1,5 +1,5 @@
-use pyo3::prelude::*;
 use ftp_core::common::tmp_calculer::cus_addition;
+use pyo3::prelude::*;
 
 #[pyfunction]
 fn py_calculer(a: f64, b: f64) -> PyResult<f64> {
