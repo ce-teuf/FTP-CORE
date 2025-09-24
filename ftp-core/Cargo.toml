@@ -10,3 +10,13 @@ crate-type = ["rlib", "cdylib"]
 [dependencies]
 ndarray = "0.16.1"
 
+[dev-dependencies]
+approx = "0.5"  # Pour les comparaisons de nombres à virgule flottante
+
+[[test]]
+name = "integration_tests"
+path = "tests/integration_tests.rs"
+
+[[test]]
+name = "matrix_operations"
+path = "tests/matrix_operations.rs"

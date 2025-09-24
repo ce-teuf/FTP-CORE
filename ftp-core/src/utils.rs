@@ -29,3 +29,36 @@ where
 }
 
 
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use ndarray::array;
+
+    #[test]
+    fn test_extract_anti_diagonal_rect2_square_matrix() {
+        let matrix = array![
+            [1.0, 2.0, 3.0],
+            [4.0, 5.0, 6.0],
+            [7.0, 8.0, 9.0]
+        ];
+
+        let result = extract_anti_diagonal_rect2(&matrix);
+        let expected = vec![7.0, 5.0, 3.0]; // [2,0], [1,1] mais selon votre logique actuelle
+
+        assert_eq!(result, expected);
+    }
+
+    #[test]
+    fn test_extract_anti_diagonal_rect2_rectangular() {
+        let matrix = array![
+            [1.0, 2.0],
+            [3.0, 4.0],
+            [5.0, 6.0]
+        ];
+
+        let result = extract_anti_diagonal_rect2(&matrix);
+        // Pour une 3x2, ça devrait prendre [2,0] et [1,1]
+        assert_eq!(result.len(), 2);
+    }
+}
+

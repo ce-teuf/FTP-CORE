@@ -30,7 +30,7 @@ jobs:
       - name: Build Excel add-in
         run: cd excel-addin && cargo build --release
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: excel-addin-dll
           path: excel-addin/target/release/votre_projet_excel.dll
@@ -51,7 +51,7 @@ jobs:
       - name: Build Python wheel
         run: cd python-lib && maturin build --release
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: python-wheel
           path: python-lib/target/wheels/*.whl

@@ -82,3 +82,57 @@ pub fn func_ftp_rate(ftp_result: &mut FtpResult,
         eprintln!("ftp_rate is None, cannot update value.");
     }
 }
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::holding_struct::FtpResult;
+    use ndarray::{array, Array2};
+
+    fn create_test_ftp_result() -> FtpResult {
+        let outstanding = array![[1000.0], [1200.0]];
+        let profiles = array![[1.0, 0.5, 0.2], [1.0, 0.5, 0.2]];
+        let rates = array![[0.01, 0.02], [0.015, 0.025]];
+
+        let mut ftp_result = FtpResult::new(outstanding, profiles, rates);
+
+        // Initialiser les matrices optionnelles nécessaires
+        let (nrows, ncols) = ftp_result.input_profiles.dim();
+        ftp_result.varstock_instal = Some(Array2::<f64>::ones((nrows, ncols)));
+        ftp_result.stock_instal = Some(Array2::<f64>::ones((nrows, ncols)));
+        ftp_result.market_rate = Some(Array2::<f64>::ones((nrows, ncols)));
+        ftp_result.ftp_rate = Some(Array2::<f64>::zeros((nrows, ncols)));
+
+        ftp_result
+    }
+
+    #[test]
+    fn test_func_ftp_rate_first_row() {
+        let mut ftp_result = create_test_ftp_result();
+        let ncols = ftp_result.input_profiles.dim().1;
+
+        func_ftp_rate(&mut ftp_result, 0, 0, ncols);
+
+        assert!(ftp_result.ftp_rate.is_some());
+        let ftp_rate = ftp_result.ftp_rate.unwrap();
+        // Vérifier que la valeur a été calculée
+        assert_ne!(ftp_rate[[0, 0]], 0.0);
+    }
+
+    #[test]
+    fn test_func_ftp_rate_handles_none_values() {
+        let mut ftp_result = FtpResult::new(
+            array![[1000.0]],
+            array![[1.0, 0.5]],
+            array![[0.01]]
+        );
+
+        // Ne pas initialiser les matrices optionnelles
+        func_ftp_rate(&mut ftp_result, 0, 0, 2);
+
+        // Devrait gérer gracieusement les valeurs None
+        // (Le test passe si aucune panique ne se produit)
+    }
+}
+

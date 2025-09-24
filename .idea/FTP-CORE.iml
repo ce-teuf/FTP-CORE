@@ -5,6 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/excel-addin/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ftp-core/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/python-lib/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/excel-addin/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/ftp-core/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />

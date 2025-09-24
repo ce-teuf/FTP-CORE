@@ -4,3 +4,5 @@ pub mod func_ftp_int;
 pub mod func_stock_instal;
 pub mod func_stock_var_instal;
 pub mod tmp_calculer;
+
+pub mod diff_matrix;

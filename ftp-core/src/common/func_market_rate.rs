@@ -54,3 +54,30 @@ pub fn func_market_rate(ftp_result: &mut FtpResult,
         eprintln!("market_rate is None, cannot update value.");
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::holding_struct::FtpResult;
+    use ndarray::{array, Array2};
+
+    #[test]
+    fn test_func_market_rate_last_column() {
+        let mut ftp_result = FtpResult::new(
+            array![[1000.0]],
+            array![[1.0, 0.5, 0.2]],
+            array![[0.01, 0.02]]
+        );
+
+        let (nrows, ncols) = ftp_result.input_profiles.dim();
+        ftp_result.stock_instal = Some(Array2::<f64>::ones((nrows, ncols)));
+        ftp_result.ftp_rate = Some(Array2::<f64>::ones((nrows, ncols)));
+        ftp_result.market_rate = Some(Array2::<f64>::zeros((nrows, ncols)));
+
+        func_market_rate(&mut ftp_result, 0, ncols-1, ncols);
+
+        assert!(ftp_result.market_rate.is_some());
+        let market_rate = ftp_result.market_rate.unwrap();
+        assert_eq!(market_rate[[0, ncols-1]], 0.02); // Devrait être input_rate[0, ncols-2]
+    }
+}

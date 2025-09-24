@@ -39,3 +39,34 @@ pub fn flux_func_stock_var(ftp_result: &mut FtpResult,
         eprintln!("varstock_amort is None, cannot update value.");
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::holding_struct::FtpResult;
+    use ndarray::{array, Array2};
+
+    #[test]
+    fn test_flux_func_stock_var_first_row() {
+        let mut ftp_result = FtpResult::new(
+            array![[1000.0]],
+            array![[1.0, 0.5, 0.2]],
+            array![[0.01, 0.02]]
+        );
+
+        let (nrows, ncols) = ftp_result.input_profiles.dim();
+        ftp_result.varstock_amort = Some(Array2::<f64>::zeros((nrows, ncols)));
+
+        flux_func_stock_var(&mut ftp_result, 0, 0);
+
+        let varstock_amort = ftp_result.varstock_amort.unwrap();
+        assert_eq!(varstock_amort[[0, 0]], 1000.0); // profile[0,0] * outstanding[0,0]
+    }
+
+    #[test]
+    fn test_max_zero_function() {
+        assert_eq!(max_zero(&5.0), 5.0);
+        assert_eq!(max_zero(&-5.0), 0.0);
+        assert_eq!(max_zero(&0.0), 0.0);
+    }
+}
