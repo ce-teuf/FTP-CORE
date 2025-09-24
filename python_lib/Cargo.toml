@@ -1,5 +1,5 @@
 [package]
-name = "ftp-core-python"
+name = "ftp_core_python"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,7 +7,7 @@ edition = "2021"
 crate-type = ["cdylib"]  # Pour PyO3
 
 [dependencies]
-ftp-core = { path = "../ftp-core" }
+ftp_core = { path = "../ftp_core" }
 pyo3 = { version = "0.26.0", features = ["extension-module"] }
 
 

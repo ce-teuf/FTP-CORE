@@ -1,5 +1,5 @@
 [package]
-name = "ftp-core-excel"
+name = "ftp_core_excel"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,4 +7,4 @@ edition = "2021"
 crate-type = ["cdylib"]  # Pour générer une lib C
 
 [dependencies]
-ftp-core = { path = "../ftp-core" }
+ftp_core = { path = "../ftp_core" }

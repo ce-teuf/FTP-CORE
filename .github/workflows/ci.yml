@@ -17,8 +17,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Rust
         run: rustup update stable && rustup default stable
-      - name: Test ftp-core
-        run: cd ftp-core && cargo test --verbose
+      - name: Test ftp_core
+        run: cd ftp_core && cargo test --verbose
 
   # 2. Builder l'add-in Excel (nécessite Windows pour la .dll)
   build-excel:
@@ -28,12 +28,12 @@ jobs:
       - name: Install Rust
         run: rustup update stable && rustup default stable
       - name: Build Excel add-in
-        run: cd excel-addin && cargo build --release
+        run: cd excel_addin && cargo build --release
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: excel-addin-dll
-          path: excel-addin/target/release/votre_projet_excel.dll
+          name: excel_addin-dll
+          path: excel_addin/target/release/votre_projet_excel.dll
 
   # 3. Builder la bibliothèque Python
   build-python:
@@ -49,12 +49,12 @@ jobs:
       - name: Install maturin
         run: pip install maturin
       - name: Build Python wheel
-        run: cd python-lib && maturin build --release
+        run: cd python_lib && maturin build --release
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-wheel
-          path: python-lib/target/wheels/*.whl
+          path: python_lib/target/wheels/*.whl
 
   # 4. Vérifier le formatage (optionnel)
   check-fmt:

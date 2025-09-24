@@ -18,7 +18,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c08606f8c3cbf4ce6ec8e28fb0014a2c086708fe954eaa885384a6165172e7e8"
 
 [[package]]
-name = "ftp-core"
+name = "ftp_core"
 version = "0.1.0"
 dependencies = [
  "approx",
@@ -26,17 +26,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "ftp-core-excel"
+name = "ftp_core_excel"
 version = "0.1.0"
 dependencies = [
- "ftp-core",
+ "ftp_core",
 ]
 
 [[package]]
-name = "ftp-core-python"
+name = "ftp_core_python"
 version = "0.1.0"
 dependencies = [
- "ftp-core",
+ "ftp_core",
  "pyo3",
 ]
 
