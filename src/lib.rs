@@ -9,39 +9,12 @@ mod method_flux;
 mod common_funcs;
 
 pub use crate::holding_struct::FtpResult;
-use crate::holding_struct::PyFtpResult;
+pub use crate::holding_struct::PyFtpResult;
 
 
 use ndarray::Array2;
 use numpy::{PyReadonlyArray2, PyArray2};
 
-#[pyfunction]
-pub fn process_arrays(
-    input_outstanding: PyReadonlyArray2<f64>,
-    input_profiles: PyReadonlyArray2<f64>,
-    input_rate: PyReadonlyArray2<f64>,
-) -> PyResult<PyFtpResult> {
-    // Convert numpy arrays to ndarray::Array2
-    let outstanding_array = input_outstanding.as_array();
-    let profiles_array = input_profiles.as_array();
-    let rate_array = input_rate.as_array();
-    
-    let mut res = FtpResult::new(
-        outstanding_array.to_owned(),
-        profiles_array.to_owned(),
-        rate_array.to_owned(),
-    );
-    res.compute("stock".to_string());
-    Ok(PyFtpResult::from(res))
-}
-
-#[pymodule]
-fn ftp_core(_py: Python, m: &PyModule) -> PyResult<()> {
-    m.add_class::<PyFtpResult>()?;
-    m.add_function(wrap_pyfunction!(process_arrays, m)?)?;
-    m.add("__version__", env!("CARGO_PKG_VERSION"))?;
-    Ok(())
-}
 
 
 pub fn mainx() {

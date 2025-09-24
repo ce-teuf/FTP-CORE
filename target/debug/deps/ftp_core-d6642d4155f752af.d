@@ -17,5 +17,3 @@ src/common_funcs/func_market_rate.rs:
 src/common_funcs/func_ftp_int.rs:
 src/common_funcs/func_stock_instal.rs:
 src/common_funcs/func_stock_var_instal.rs:
-
-# env-dep:CARGO_PKG_VERSION=0.1.0
