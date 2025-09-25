@@ -88,15 +88,22 @@ build-all: build-c-bindings build-py-bindings
 # ============================================================================ #
 
 # Builder la documentation locale
-build-docs:
-	@echo "$(BLUE)Construction de la documentation...$(NC)"
-	@mkdocs build
-	@echo "$(GREEN)✓ Documentation construite dans $(DOCS_DIR)/site$(NC)"
+build_docs:
+	@cargo doc --target-dir docs/site/rust-generated/ --no-deps --workspace
+	@pdoc -o docs/site/python-generated/ python/src/
+
+
+#
+#build-docs:
+#	@echo "$(BLUE)Construction de la documentation...$(NC)"
+#	@mkdocs build
+#	@echo "$(GREEN)✓ Documentation construite dans $(DOCS_DIR)/site$(NC)"
 
 # Servir la documentation localement
 serve-docs:
 	@echo "$(BLUE)Lancement du serveur de documentation...$(NC)"
-	@mkdocs serve
+	@cd $(DOCS_DIR)/site/ && python3.12 -m http.server 8000 --bind 127.0.0.1
+
 
 # Déployer la documentation (pour GitHub Pages)
 deploy-docs:

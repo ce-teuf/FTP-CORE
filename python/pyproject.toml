@@ -16,6 +16,11 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
 ]
 
+[project.optional-dependencies]
+docs = [
+    "pdoc",
+]
+
 [project.urls]
 Repository = "https://github.com/ton_org/FTP_CALCULATOR"
 

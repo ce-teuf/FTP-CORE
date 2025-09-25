@@ -1,5 +1,5 @@
 from typing import Union
-from . import _core  # Module généré par PyO3 (bindings Rust)
+#from . import _core  # Module généré par PyO3 (bindings Rust)
 
 class MonWrapper:
     """
@@ -30,7 +30,7 @@ class MonWrapper:
         """
         if x < 0:
             raise ValueError("x must be positive")
-        return _core.add(x, 10)  # Appelle la fonction Rust via les bindings
+        return x + 10  # Appelle la fonction Rust via les bindings
 
 def add(a: int, b: int) -> int:
     """
@@ -43,7 +43,7 @@ def add(a: int, b: int) -> int:
     Returns:
         The sum of `a` and `b`.
     """
-    return _core.add(a, b)
+    return a + b
 
 def safe_divide(numerator: int, denominator: int) -> Union[int, float]:
     """
