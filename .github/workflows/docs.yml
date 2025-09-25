@@ -2,29 +2,29 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]  # Déclenche le workflow à chaque push sur la branche main
+    branches: [ main ]
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # Utilise une machine virtuelle Ubuntu pour exécuter le workflow
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4  # Récupère le code de votre dépôt
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.13"  # Utilise Python 3.13
+          python-version: "3.13"
 
       - name: Install dependencies
         run: |
-          pip install mkdocs mkdocs-material ghp-import  # Installe MkDocs, le thème Material et ghp-import
+          pip install mkdocs mkdocs-material ghp-import mkdocstrings mkdocstrings-python
 
       - name: Build documentation
-        run: mkdocs build  # Construit la documentation dans le dossier `site/`
+        run: mkdocs build
 
       - name: Deploy to GitHub Pages
-        run: ghp-import -n -p -f site/  # Déploie le contenu du dossier `site/` sur la branche `gh-pages`
+        run: ghp-import -n -p -f site/
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Utilise le token GitHub pour pousser les modifications
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
