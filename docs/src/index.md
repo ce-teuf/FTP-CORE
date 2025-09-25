@@ -10,7 +10,7 @@ A comprehensive Funds Transfer Pricing (FTP) calculation library with Rust core,
 - **Production Ready**: Comprehensive testing and CI/CD
 
 ## Quick Links
-
+c
 - [Installation Guide](guide/installation.md)
 - [Python API Reference](python/api.md)
 - [Excel Add-In Guide](guide/excel/setup.md)
