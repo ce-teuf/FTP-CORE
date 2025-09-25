@@ -19,7 +19,7 @@ A comprehensive Funds Transfer Pricing (FTP) calculation library with Rust core,
 ## Getting Started
 
 ```bash
-git clone https://github.com/your-username/FTP_CALCULATOR
+git clone https://github.com/ce-teuf/FTP_CALCULATOR
 cd FTP_CALCULATOR
 make setup
 ```

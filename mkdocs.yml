@@ -1,6 +1,6 @@
 # Nom du site (apparaît dans l'onglet du navigateur et l'en-tête)
 site_name: FTP_CALCULATOR
-site_url: https://ton_org.github.io/FTP_CALCULATOR  # À adapter avec ton URL GitHub Pages
+site_url: https://ce-teuf.github.io/FTP_CALCULATOR  # À adapter avec ton URL GitHub Pages
 site_description: "A cross-language project with Rust, Python, and Excel integration."
 site_author: Charles Teuf
 
@@ -79,15 +79,15 @@ plugins:
         theme: default
 
 # Options pour GitHub Pages
-repo_name: ton_org/FTP_CALCULATOR
-repo_url: https://github.com/ton_org/FTP_CALCULATOR
+repo_name: ce-teuf/FTP_CALCULATOR
+repo_url: https://github.com/ce-teuf/FTP_CALCULATOR
 edit_uri: edit/main/docs/  # Lien "Edit this page" vers ton dépôt
 
 # Personnalisation du thème Material
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/ton_org
+      link: https://github.com/ce-teuf
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/ton_profil  # Optionnel
   version:

@@ -25,7 +25,6 @@ jobs:
           draft: false
           prerelease: false
 
-  # CORRIGÉ : Chemins corrects pour les bindings C
   release-excel:
     needs: create-release
     runs-on: windows-latest
@@ -63,7 +62,6 @@ jobs:
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
 
-  # CORRIGÉ : Chemin correct pour le wheel Python
   release-python-wheel:
     needs: create-release
     runs-on: ubuntu-latest

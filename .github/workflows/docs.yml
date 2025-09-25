@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    defaults:
+      run:
+        working-directory: docs  # All commands will run from the 'docs' folder
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,7 +29,6 @@ jobs:
         run: mkdocs build --clean
 
       - name: Deploy to GitHub Pages
-        run: |
-          ghp-import -p -f site/
+        run: ghp-import -n -p -f site/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
