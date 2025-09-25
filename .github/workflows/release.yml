@@ -3,13 +3,12 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'  # Déclenché quand vous pushez un tag comme v0.1.0
+      - 'v*'
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  # 1. Publier la release GitHub avec la .dll et le .whl
   create-release:
     runs-on: ubuntu-latest
     outputs:
@@ -26,7 +25,7 @@ jobs:
           draft: false
           prerelease: false
 
-  # 2. Builder et uploader la .dll pour Excel
+  # CORRIGÉ : Chemins corrects pour les bindings C
   release-excel:
     needs: create-release
     runs-on: windows-latest
@@ -34,19 +33,18 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Rust
         run: rustup update stable && rustup default stable
-      - name: Build Excel add-in
-        run: cd ftp_core_excel && cargo build --release
+      - name: Build C bindings
+        run: cd crates/ftp_core_bindings_c && cargo build --release
       - name: Upload DLL to Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ftp_core_excel/target/release/votre_projet_excel.dll
-          asset_name: votre_projet_excel.dll
+          asset_path: crates/ftp_core_bindings_c/target/release/ftp_core_bindings_c.dll
+          asset_name: ftp_core_bindings_c.dll
           asset_content_type: application/octet-stream
 
-  # 3. Publier la lib Python sur PyPI
   release-python:
     needs: create-release
     runs-on: ubuntu-latest
@@ -61,11 +59,11 @@ jobs:
       - name: Install maturin
         run: pip install maturin
       - name: Build and publish to PyPI
-        run: cd ftp_core_bindings_pyo3 && maturin publish --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
+        run: cd crates/ftp_core_bindings_pyo3 && maturin publish --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
 
-  # 4. Builder et uploader le wheel Python dans la release GitHub
+  # CORRIGÉ : Chemin correct pour le wheel Python
   release-python-wheel:
     needs: create-release
     runs-on: ubuntu-latest
@@ -80,13 +78,13 @@ jobs:
       - name: Install maturin
         run: pip install maturin
       - name: Build wheel
-        run: cd ftp_core_bindings_pyo3 && maturin build --release
+        run: cd crates/ftp_core_bindings_pyo3 && maturin build --release
       - name: Upload wheel to Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ftp_core_bindings_pyo3/target/wheels/*.whl
-          asset_name: votre_projet_python.whl
+          asset_path: crates/ftp_core_bindings_pyo3/target/wheels/*.whl
+          asset_name: ftp_core_python.whl
           asset_content_type: application/octet-stream

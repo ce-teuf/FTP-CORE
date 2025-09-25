@@ -61,7 +61,7 @@ plugins:
   - mkdocstrings:  # Intégration des docstrings Python/Rust
       handlers:
         python:
-          paths: [../python]  # Chemin vers ton code Python
+          paths: [python/src]  # Chemin vers ton code Python
           options:
             show_root_heading: true
             show_root_full_path: false

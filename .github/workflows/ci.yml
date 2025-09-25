@@ -10,7 +10,6 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  # 1. Tester le noyau Rust
   test-core:
     runs-on: ubuntu-latest
     steps:
@@ -18,24 +17,23 @@ jobs:
       - name: Install Rust
         run: rustup update stable && rustup default stable
       - name: Test ftp_core
-        run: cd ftp_core && cargo test --verbose
+        run: cd crates/ftp_core && cargo test --verbose
 
-  # 2. Builder l'add-in Excel (nécessite Windows pour la .dll)
+  # CORRIGÉ : Référence aux bons chemins
   build-excel:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - name: Install Rust
         run: rustup update stable && rustup default stable
-      - name: Build Excel add-in
-        run: cd ftp_core_excel && cargo build --release
+      - name: Build C bindings for Excel
+        run: cd crates/ftp_core_bindings_c && cargo build --release
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ftp_core_excel-dll
-          path: ftp_core_excel/target/release/votre_projet_excel.dll
+          name: ftp_core_bindings_c-dll
+          path: crates/ftp_core_bindings_c/target/release/ftp_core_bindings_c.dll
 
-  # 3. Builder la bibliothèque Python
   build-python:
     runs-on: ubuntu-latest
     steps:
@@ -49,14 +47,13 @@ jobs:
       - name: Install maturin
         run: pip install maturin
       - name: Build Python wheel
-        run: cd ftp_core_bindings_pyo3 && maturin build --release
+        run: cd crates/ftp_core_bindings_pyo3 && maturin build --release
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-wheel
-          path: ftp_core_bindings_pyo3/target/wheels/*.whl
+          path: crates/ftp_core_bindings_pyo3/target/wheels/*.whl
 
-  # 4. Vérifier le formatage (optionnel)
   check-fmt:
     runs-on: ubuntu-latest
     steps:
@@ -64,7 +61,6 @@ jobs:
       - name: Check formatting
         run: cargo fmt --all -- --check
 
-  # 5. Vérifier le linting (clippy)
   check-lint:
     runs-on: ubuntu-latest
     steps:

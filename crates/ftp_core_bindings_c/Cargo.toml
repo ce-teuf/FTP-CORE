@@ -12,8 +12,8 @@ keywords = ["ftp", "calculator", "finance"]
 categories = ["finance", "science"]
 
 [lib]
-name = "ftp_core"
-crate-type = ["rlib", "cdylib"]
+name = "ftp_core_bindings_c"
+crate-type = ["cdylib"]  # Pour les bindings C, on veut seulement cdylib
 
 [dependencies]
 ndarray = "0.16.1"
