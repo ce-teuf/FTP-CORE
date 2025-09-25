@@ -5,7 +5,7 @@ site_description: "A cross-language project with Rust, Python, and Excel integra
 site_author: Charles Teuf
 
 # Répertoire de sortie (laisser par défaut)
-site_dir: ../site
+site_dir: ./site
 docs_dir: ./src
 
 # Configuration de la navigation
