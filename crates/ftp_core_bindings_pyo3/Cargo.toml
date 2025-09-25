@@ -1,5 +1,5 @@
 [package]
-name = "ftp_core_python"
+name = "ftp_core_bindings_pyo3"
 version = "0.1.0"
 edition = "2021"
 description = "Python bindings for FTP Core library"
@@ -10,8 +10,10 @@ repository = "https://github.com/votre-username/votre-repo"
 readme = "README.md"
 keywords = ["ftp", "calculator", "python"]
 categories = ["finance", "api-bindings"]
+
 [lib]
-crate-type = ["cdylib"]  # Pour PyO3
+name = "ftp_core_bindings_pyo3"
+crate-type = ["cdylib"]
 
 [dependencies]
 ftp_core = { path = "../ftp_core" }

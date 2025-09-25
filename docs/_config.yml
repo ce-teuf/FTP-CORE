@@ -1,0 +1,100 @@
+# Nom du site (apparaît dans l'onglet du navigateur et l'en-tête)
+site_name: FTP_CALCULATOR
+site_url: https://ton_org.github.io/FTP_CALCULATOR  # À adapter avec ton URL GitHub Pages
+site_description: "A cross-language project with Rust, Python, and Excel integration."
+site_author: Charles Teuf
+
+# Répertoire de sortie (laisser par défaut)
+site_dir: site
+
+# Configuration de la navigation
+nav:
+  - Home: index.md
+  - Guides:
+      - Installation: guide/installation.md
+      - Quickstart: guide/quickstart.md
+      - Excel:
+          - Setup: guide/excel/setup.md
+          - Usage: guide/excel/usage.md
+  - API Reference:
+      - Rust Core: rust/core/rs_core.md
+      - Rust Bindings: rust/bindings/rs_bindings.md
+      - Python Wrapper: python/api.md
+      - Excel Add-In: excel/api.md
+  - About: about.md  # Page optionnelle pour des infos supplémentaires
+
+# Thème (Material est le plus moderne et personnalisable)
+theme:
+  name: material
+  language: en
+  logo: assets/logo.png  # Optionnel : ajoute un logo dans `docs/assets/`
+  favicon: assets/favicon.ico  # Optionnel : icône du site
+  features:
+    - navigation.tabs  # Onglets pour organiser les sections
+    - navigation.sections  # Sections pliables
+    - navigation.top  # Bouton pour revenir en haut
+    - search.suggest  # Suggestions de recherche
+    - search.highlight  # Surlignage des résultats
+    - toc.integrate  # Table des matières intégrée
+
+# Extensions Markdown
+markdown_extensions:
+  - admonition  # Blocs d'avertissement (note, warning, etc.)
+  - codehilite:  # Coloration syntaxique du code
+      guess_lang: false
+      linenums: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences  # Support des diagrammes Mermaid
+  - pymdownx.tabbed:  # Onglets pour alterner entre contenus
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - toc:
+      permalink: true  # Lien permanent pour les titres
+
+# Plugins
+plugins:
+  - search:  # Barre de recherche
+      lang: en
+  - mkdocstrings:  # Intégration des docstrings Python/Rust
+      handlers:
+        python:
+          paths: [../python]  # Chemin vers ton code Python
+          options:
+            show_root_heading: true
+            show_root_full_path: false
+            show_root_members_full_path: false
+            show_category_heading: true
+            show_if_no_docstring: true
+            show_signature_annotations: true
+            separate_signature: true
+            line_length: 80
+            docstring_style: google  # ou "numpy", "sphinx"
+  - mermaid2:  # Support des diagrammes Mermaid
+      arguments:
+        theme: default
+
+# Options pour GitHub Pages
+repo_name: ton_org/FTP_CALCULATOR
+repo_url: https://github.com/ton_org/FTP_CALCULATOR
+edit_uri: edit/main/docs/  # Lien "Edit this page" vers ton dépôt
+
+# Personnalisation du thème Material
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ton_org
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/ton_profil  # Optionnel
+  version:
+    provider: mike  # Pour gérer les versions de la doc (optionnel)
+
+# Configuration pour les versions (optionnel)
+extra_css:
+  - stylesheets/extra.css  # Fichier CSS personnalisé (optionnel)
+
+# Options pour le déploiement
+use_directory_urls: true  # URLs propres (ex: /guide/installation/)
+strict: true  # Mode strict pour détecter les erreurs

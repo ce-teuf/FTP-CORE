@@ -49,12 +49,12 @@ jobs:
       - name: Install maturin
         run: pip install maturin
       - name: Build Python wheel
-        run: cd ftp_core_python && maturin build --release
+        run: cd ftp_core_bindings_pyo3 && maturin build --release
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-wheel
-          path: ftp_core_python/target/wheels/*.whl
+          path: ftp_core_bindings_pyo3/target/wheels/*.whl
 
   # 4. Vérifier le formatage (optionnel)
   check-fmt:

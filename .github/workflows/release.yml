@@ -61,7 +61,7 @@ jobs:
       - name: Install maturin
         run: pip install maturin
       - name: Build and publish to PyPI
-        run: cd ftp_core_python && maturin publish --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
+        run: cd ftp_core_bindings_pyo3 && maturin publish --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
 
@@ -80,13 +80,13 @@ jobs:
       - name: Install maturin
         run: pip install maturin
       - name: Build wheel
-        run: cd ftp_core_python && maturin build --release
+        run: cd ftp_core_bindings_pyo3 && maturin build --release
       - name: Upload wheel to Release
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: ftp_core_python/target/wheels/*.whl
+          asset_path: ftp_core_bindings_pyo3/target/wheels/*.whl
           asset_name: votre_projet_python.whl
           asset_content_type: application/octet-stream

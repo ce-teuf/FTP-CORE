@@ -1,7 +1,7 @@
 [workspace]
 members = [
-    "ftp_core",
-    "ftp_core_excel",
-    "ftp_core_python"
+    "crates/ftp_core",
+    "crates/ftp_core_bindings_c",
+    "crates/ftp_core_bindings_pyo3"
 ]
 resolver = "2"

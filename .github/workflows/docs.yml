@@ -3,7 +3,7 @@ name: Deploy Documentation
 on:
   push:
     branches: [ main ]
-    paths: [ 'docs/**', 'ftp_core/**', '../../ftp_core_python/**', '../../ftp_core_excel/**', 'Cargo.toml']
+    paths: [ 'docs/**', '../../crates/ftp_core/**', '../../ftp_core_bindings_pyo3/**', '../../ftp_core_excel/**', 'Cargo.toml']
   release:
     types: [published]
 

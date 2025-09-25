@@ -68,7 +68,7 @@ bench:
 	@echo "$(BLUE)Exécution des benchmarks...$(NC)"
 	@$(CARGO) bench $(BENCH_FLAGS)
 
-# Documentation
+# Documentation rust seulement
 doc:
 	@echo "$(BLUE)Génération de la documentation...$(NC)"
 	@$(CARGO) doc --open
@@ -107,22 +107,3 @@ setup:
 	@rustup component add rustfmt
 	@cargo install cargo-tarpaulin 2>/dev/null || echo "$(YELLOW)tarpaulin déjà installé ou échec d'installation$(NC)"
 
-# Build documentation
-docs-build:
-	@echo "$(BLUE)Building documentation...$(NC)"
-	@./scripts/build_docs.sh
-
-# Serve documentation locally
-docs-serve:
-	@echo "$(BLUE)Serving documentation locally...$(NC)"
-	@cd docs && mkdocs serve
-
-# Deploy documentation
-docs-deploy:
-	@echo "$(BLUE)Deploying documentation...$(NC)"
-	@cd docs && mkdocs gh-deploy
-
-# Open documentation
-docs-open:
-	@echo "$(BLUE)Opening documentation...$(NC)"
-	@open docs/site/index.html
