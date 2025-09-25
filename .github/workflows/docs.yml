@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    defaults:
-      run:
-        working-directory: ./docs  # docs All commands will run from the 'docs' folder
+#    defaults:
+#      run:
+#        working-directory: ./docs  # docs All commands will run from the 'docs' folder
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
