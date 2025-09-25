@@ -25,7 +25,6 @@ jobs:
 
       - name: Deploy to GitHub Pages
         run: |
-          touch site/.nojekyll  # Explicitly create .nojekyll
-          ghp-import -n -p -f site/
+          ghp-import -p -f site/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
