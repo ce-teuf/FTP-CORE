@@ -11,7 +11,7 @@ jobs:
       contents: write
     defaults:
       run:
-        working-directory: ./  # All commands will run from the 'docs' folder
+        working-directory: ./  # docs All commands will run from the 'docs' folder
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,5 +30,8 @@ jobs:
 
       - name: Deploy to GitHub Pages
         run: ghp-import -n -p -f site/
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # env:
+        #  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site  # Default output directory for MkDocs
