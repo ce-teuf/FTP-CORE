@@ -66,7 +66,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Rust
-        run: rustup update stable && rustup default stable
+      - name: Install Rust and clippy
+        run: |
+          rustup update stable && rustup default stable
+          rustup component add clippy  # <-- Add this line
       - name: Run clippy
         run: cargo clippy --workspace -- -D warnings
