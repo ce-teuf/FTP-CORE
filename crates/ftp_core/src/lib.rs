@@ -75,7 +75,7 @@ pub fn mainx() {
     //println!("{:.6}\n", ftp_res1.ftp_rate.unwrap());
     //println!("{:.6}\n", ftp_res1.market_rate.unwrap());
     //println!("{:.6}", ftp_res1.ftp_int.unwrap());
-    //println!("test");
+    //println!("test.yml");
 
     let mut ftp_res2 = FtpResult::new(v_outstanding2, m_profile2, m_taux2);
     ftp_res2.compute("flux".to_string());
@@ -84,5 +84,5 @@ pub fn mainx() {
     println!("{:.6}\n", ftp_res2.market_rate.unwrap());
     println!("{:.6}\n", ftp_res2.varstock_amort.unwrap());
     println!("{:.6}", ftp_res2.stock_amort.unwrap());
-    println!("test");
+    println!("test.yml");
 }

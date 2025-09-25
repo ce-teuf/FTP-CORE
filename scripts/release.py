@@ -83,7 +83,7 @@ class ReleaseManager:
         print("🔍 Validation de l'état du projet...")
 
         checks = [
-            ("Tests", self.run_command("make test")),
+            ("Tests", self.run_command("make test.yml")),
             ("Formatage", self.run_command("cargo fmt --all -- --check")),
             ("Linting", self.run_command("cargo clippy --workspace -- -D warnings")),
             ("Build Rust", self.run_command("cargo build --release")),

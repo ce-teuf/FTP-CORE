@@ -17,7 +17,7 @@ jobs:
       - name: Install Rust
         run: rustup update stable && rustup default stable
       - name: Test ftp_core
-        run: cd crates/ftp_core && cargo test --verbose
+        run: cd crates/ftp_core && cargo test.yml --verbose
 
   build-excel:
     runs-on: windows-latest

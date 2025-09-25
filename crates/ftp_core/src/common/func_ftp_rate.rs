@@ -115,6 +115,6 @@ mod tests {
         func_ftp_rate(&mut ftp_result, 0, 0, 2);
 
         // Devrait gérer gracieusement les valeurs None
-        // (Le test passe si aucune panique ne se produit)
+        // (Le test.yml passe si aucune panique ne se produit)
     }
 }

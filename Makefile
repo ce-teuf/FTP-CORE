@@ -157,7 +157,7 @@ tarpaulin:
 # CIBLES SPÉCIFIQUES ET DÉBOGAGE
 # ============================================================================ #
 
-# Test avec filtrage (pour exécuter un test spécifique)
+# Test avec filtrage (pour exécuter un test.yml spécifique)
 test-%:
 	@echo "$(BLUE)Exécution des tests correspondant à '$*'...$(NC)"
 	@$(CARGO) test --test $* $(TEST_FLAGS)
