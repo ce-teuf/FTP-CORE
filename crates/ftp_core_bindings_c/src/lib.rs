@@ -2,7 +2,7 @@
 // use core::fonction_rust;
 
 // Fonction Rust exposée en C
-#[no_mangle]  // Désactive le "name mangling" pour que le nom reste intact
+#[no_mangle] // Désactive le "name mangling" pour que le nom reste intact
 pub extern "C" fn add(a: i32, b: i32) -> i32 {
     // Exemple minimal : addition de deux entiers
     a + b
@@ -15,7 +15,7 @@ pub extern "C" fn add(a: i32, b: i32) -> i32 {
 #[no_mangle]
 pub extern "C" fn safe_divide(numerator: i32, denominator: i32) -> i32 {
     if denominator == 0 {
-        -1  // Code d'erreur (à adapter selon tes besoins)
+        -1 // Code d'erreur (à adapter selon tes besoins)
     } else {
         numerator / denominator
     }
