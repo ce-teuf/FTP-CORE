@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ docs ]  # Changed from 'main' to 'docs'
+    branches: [ gitpage-branch ]  # Changed from 'main' to 'docs'
 
 # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
 permissions:
