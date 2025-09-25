@@ -1,48 +1,30 @@
-name: Deploy Documentation
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
-    paths: [ 'docs/**', 'crates/**', 'Cargo.toml', 'pyproject.toml' ]
-  release:
-    types: [published]
-
-permissions:
-  contents: write
+    branches: [ main ]  # Déclenche le workflow à chaque push sur la branche main
 
 jobs:
-  deploy-docs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+  deploy:
+    runs-on: ubuntu-latest  # Utilise une machine virtuelle Ubuntu pour exécuter le workflow
 
-      - name: Setup Python
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4  # Récupère le code de votre dépôt
+
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
-
-      - name: Install Rust
-        run: rustup update stable && rustup default stable
+          python-version: "3.13"  # Utilise Python 3.13
 
       - name: Install dependencies
         run: |
-          pip install mkdocs-material mkdocstrings mkdocstrings-python
-          cargo install cargo-docs
+          pip install mkdocs mkdocs-material ghp-import  # Installe MkDocs, le thème Material et ghp-import
 
-      - name: Build Rust documentation
-        run: |
-          cargo doc --workspace --no-deps
-          mkdir -p docs/api
-          cp -r target/doc/* docs/api/
-
-      - name: Build MkDocs site
-        run: |
-          cd docs
-          mkdocs build --verbose
+      - name: Build documentation
+        run: mkdocs build  # Construit la documentation dans le dossier `site/`
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/site
-          publish_branch: gh-pages
+        run: ghp-import -n -p -f site/  # Déploie le contenu du dossier `site/` sur la branche `gh-pages`
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Utilise le token GitHub pour pousser les modifications

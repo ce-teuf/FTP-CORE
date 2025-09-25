@@ -78,6 +78,6 @@ fn main() {
 ---
 
 ## Next Steps
-- [Read the technical documentation](rust/core/index.html).
-- [Explore Excel tutorials](excel/tutorials/).
+- [Read the technical documentation](../rust/core/rs_core.md).
+- [Explore Excel tutorials](../excel/tutorials/tuto.md).
 ```

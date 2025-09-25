@@ -21,6 +21,7 @@ nav:
       - Rust Core: rust/core/rs_core.md
       - Rust Bindings: rust/bindings/rs_bindings.md
       - Python Wrapper: python/api.md
+      - Python Bindings: python/bindings/py_bindings.md
       - Excel Add-In: excel/api.md
   - About: about.md  # Page optionnelle pour des infos supplémentaires
 
