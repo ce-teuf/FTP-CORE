@@ -6,7 +6,7 @@ site_author: Charles Teuf
 
 # Répertoire de sortie (laisser par défaut)
 site_dir: ./site
-docs_dir: ./src
+docs_dir: ./docs
 
 # Configuration de la navigation
 nav:
