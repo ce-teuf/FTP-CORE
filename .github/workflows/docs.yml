@@ -29,6 +29,6 @@ jobs:
         run: mkdocs build --clean --config-file ./mkdocs.yml
 
       - name: Deploy to GitHub Pages
-        run: ghp-import -n -p -f site/
+        run: ghp-import -n -p -f ./site
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
