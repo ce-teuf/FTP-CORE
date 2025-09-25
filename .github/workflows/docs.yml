@@ -4,7 +4,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ gitpage-branch ]  # Changed from 'main' to 'docs'
+    branches: [ main ]  # Changed from 'main' to 'docs'
 
   workflow_dispatch:
 
