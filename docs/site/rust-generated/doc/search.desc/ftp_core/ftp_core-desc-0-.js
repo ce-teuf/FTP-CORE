@@ -1,0 +1,1 @@
+searchState.loadedDescShard("ftp_core", 0, "FTP Core Library\nReturns the argument unchanged.\nCalls <code>U::from(self)</code>.\nPoint d’entrée principal de l’application")

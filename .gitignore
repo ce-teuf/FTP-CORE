@@ -5,6 +5,7 @@
 .venv/
 Python-3.12.0/
 
+docs/site/rust-generated/debug
 crates/ftp_core/debug/
 crates/ftp_core/target/
 

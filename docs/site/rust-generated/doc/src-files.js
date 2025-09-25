@@ -1,0 +1,2 @@
+createSrcSidebar('[["ftp_core",["",[["common",[],["diff_matrix.rs","func_ftp_int.rs","func_ftp_rate.rs","func_market_rate.rs","func_stock_instal.rs","func_stock_var_instal.rs","mod.rs","tmp_calculer.rs"]],["method_flux",[],["flux_func_stock_amort.rs","flux_func_stock_var.rs","mod.rs"]],["method_stock",[],["func_stock_amort.rs","func_stock_var.rs","mod.rs"]]],["holding_struct.rs","lib.rs","utils.rs"]]],["ftp_core_bindings_c",["",[],["lib.rs"]]],["ftp_core_bindings_pyo3",["",[],["lib.rs"]]]]');
+//{"start":19,"fragment_lengths":[385,43,46]}
