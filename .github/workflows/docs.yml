@@ -38,6 +38,7 @@ jobs:
 
       - name: Build documentation
         run: |
+          cd docs
           mkdocs build --clean --config-file ./mkdocs.yml
         # cd docs
       - name: Setup Pages
