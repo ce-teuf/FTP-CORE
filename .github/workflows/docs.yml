@@ -7,7 +7,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -19,12 +18,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install mkdocs mkdocs-material ghp-import mkdocstrings mkdocstrings-python
+          pip install --upgrade mkdocs mkdocs-material ghp-import mkdocstrings mkdocstrings-python
 
       - name: Build documentation
-        run: mkdocs build
+        run: mkdocs build --clean
 
       - name: Deploy to GitHub Pages
-        run: ghp-import -n -p -f site/
+        run: |
+          touch site/.nojekyll  # Explicitly create .nojekyll
+          ghp-import -n -p -f site/
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
