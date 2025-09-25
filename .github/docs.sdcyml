@@ -28,6 +28,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          pip install --upgrade mkdocs mkdocs-material ghp-import mkdocstrings mkdocstrings-python mkdocs-mermaid2-plugin
+      - name: Build documentation
+        run: | 
+          mkdocs build --clean --config-file ./mkdocs.yml
         # cd docs
       - name: Setup Pages
         uses: actions/configure-pages@v4
