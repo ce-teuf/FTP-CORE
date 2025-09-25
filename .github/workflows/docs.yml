@@ -26,12 +26,9 @@ jobs:
           pip install --upgrade mkdocs mkdocs-material ghp-import mkdocstrings mkdocstrings-python mkdocs-mermaid2-plugin
 
       - name: Build documentation
-        run: mkdocs build --clean
+        run: mkdocs build --clean --config-file ./mkdocs.yml
 
       - name: Deploy to GitHub Pages
         run: ghp-import -n -p -f site/
-        # env:
-        #  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site  # Default output directory for MkDocs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
