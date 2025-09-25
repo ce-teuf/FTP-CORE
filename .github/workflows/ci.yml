@@ -19,7 +19,6 @@ jobs:
       - name: Test ftp_core
         run: cd crates/ftp_core && cargo test --verbose
 
-  # CORRIGÉ : Référence aux bons chemins
   build-excel:
     runs-on: windows-latest
     steps:
@@ -48,6 +47,8 @@ jobs:
         run: pip install maturin
       - name: Build Python wheel
         run: cd crates/ftp_core_bindings_pyo3 && maturin build --release
+        env:
+          MATURIN_PYTHON: python3.13
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:

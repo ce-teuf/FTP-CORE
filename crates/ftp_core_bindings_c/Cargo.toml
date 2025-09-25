@@ -17,9 +17,11 @@ crate-type = ["cdylib"]  # Pour les bindings C, on veut seulement cdylib
 
 [dependencies]
 ndarray = "0.16.1"
+ftp_core = { path = "../ftp_core" }  # ADD THIS LINE
+cbindgen = "0.29.0"
 
 [build-dependencies]
-cbindgen = "0.24"  # Pour générer le header C
+cbindgen = "0.29.0"  # Pour générer le header C
 
 [dev-dependencies]
 approx = "0.5"  # Pour les comparaisons de nombres à virgule flottante

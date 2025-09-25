@@ -1,9 +1,20 @@
 # Variables
 CARGO = cargo
+MATURIN = maturin
+DOTNET = dotnet
 TEST_FLAGS = --color=always
 NOCAPTURE_FLAGS = -- --nocapture
 BENCH_FLAGS = -- --bench
 PROJECT_NAME = $(shell grep '^name' Cargo.toml | head -1 | cut -d '"' -f 2)
+
+# Chemins des projets
+CRATES_DIR = crates
+CORE_DIR = $(CRATES_DIR)/ftp_core
+C_BINDINGS_DIR = $(CRATES_DIR)/ftp_core_bindings_c
+PY_BINDINGS_DIR = $(CRATES_DIR)/ftp_core_bindings_pyo3
+EXCEL_DIR = excel
+DOCS_DIR = docs
+SCRIPTS_DIR = scripts
 
 # Couleurs pour l'affichage
 GREEN = \033[0;32m
@@ -12,10 +23,16 @@ YELLOW = \033[0;33m
 BLUE = \033[0;34m
 NC = \033[0m # No Color
 
-.PHONY: all test unit integration detailed clean help bench doc tarpaulin docs docs-build docs-serve docs-deploy
+.PHONY: all test unit integration detailed clean help bench doc tarpaulin docs \
+        build-c-bindings build-py-bindings build-docs build-excel \
+        deploy-docs setup-dev
 
 # Cible par défaut
 all: test
+
+# ============================================================================ #
+# TESTS
+# ============================================================================ #
 
 # Tous les tests
 test: unit integration
@@ -37,41 +54,97 @@ detailed:
 	@echo "$(BLUE)Exécution des tests avec output détaillé...$(NC)"
 	@$(CARGO) test $(NOCAPTURE_FLAGS)
 
-# Nettoyage
+# ============================================================================ #
+# BUILD DES BINDINGS ET ARTEFACTS
+# ============================================================================ #
+
+# Builder les bindings C (pour Excel)
+build-c-bindings:
+	@echo "$(BLUE)Construction des bindings C...$(NC)"
+	@cd $(C_BINDINGS_DIR) && $(CARGO) build --release
+	@echo "$(GREEN)✓ Bindings C construits$(NC)"
+	@echo "$(BLUE)Copie des artefacts...$(NC)"
+	@cd $(C_BINDINGS_DIR) && ./copy_artifacts.sh
+
+# Builder les bindings Python
+build-py-bindings:
+	@echo "$(BLUE)Construction des bindings Python...$(NC)"
+	@cd $(PY_BINDINGS_DIR) && $(MATURIN) build --release
+	@echo "$(GREEN)✓ Bindings Python construits$(NC)"
+
+# Builder l'add-in Excel (nécessite Windows et .NET)
+build-excel:
+	@echo "$(BLUE)Construction de l'add-in Excel...$(NC)"
+	@cd $(EXCEL_DIR)/AddIn && $(DOTNET) build --configuration Release
+	@echo "$(GREEN)✓ Add-in Excel construit$(NC)"
+
+# Builder tous les bindings
+build-all: build-c-bindings build-py-bindings
+	@echo "$(GREEN)✓ Tous les bindings construits$(NC)"
+
+# ============================================================================ #
+# DOCUMENTATION
+# ============================================================================ #
+
+# Builder la documentation locale
+build-docs:
+	@echo "$(BLUE)Construction de la documentation...$(NC)"
+	@cd $(DOCS_DIR) && mkdocs build
+	@echo "$(GREEN)✓ Documentation construite dans $(DOCS_DIR)/site$(NC)"
+
+# Servir la documentation localement
+serve-docs:
+	@echo "$(BLUE)Lancement du serveur de documentation...$(NC)"
+	@cd $(DOCS_DIR) && mkdocs serve
+
+# Déployer la documentation (pour GitHub Pages)
+deploy-docs:
+	@echo "$(BLUE)Déploiement de la documentation...$(NC)"
+	@cd $(DOCS_DIR) && mkdocs gh-deploy --force
+	@echo "$(GREEN)✓ Documentation déployée$(NC)"
+
+# Documentation Rust seulement
+doc:
+	@echo "$(BLUE)Génération de la documentation Rust...$(NC)"
+	@$(CARGO) doc --open
+
+# ============================================================================ #
+# UTILITAIRES ET MAINTENANCE
+# ============================================================================ #
+
+# Nettoyage complet
 clean:
 	@echo "$(YELLOW)Nettoyage du projet...$(NC)"
 	@$(CARGO) clean
+	@rm -rf target
+	@rm -rf $(DOCS_DIR)/site
+	@rm -rf $(EXCEL_DIR)/Interop/*
+	@echo "$(GREEN)✓ Projet nettoyé$(NC)"
 
-# Aide
-help:
-	@echo "$(GREEN)Makefile pour le projet $(PROJECT_NAME)$(NC)"
-	@echo ""
-	@echo "Cibles disponibles:"
-	@echo "  $(GREEN)all$(NC)        - Exécute tous les tests (cible par défaut)"
-	@echo "  $(GREEN)test$(NC)       - Exécute les tests unitaires et d'intégration"
-	@echo "  $(GREEN)unit$(NC)       - Exécute seulement les tests unitaires"
-	@echo "  $(GREEN)integration$(NC)- Exécute seulement les tests d'intégration"
-	@echo "  $(GREEN)detailed$(NC)   - Exécute les tests avec output détaillé"
-	@echo "  $(GREEN)bench$(NC)      - Exécute les benchmarks"
-	@echo "  $(GREEN)doc$(NC)        - Génère la documentation"
-	@echo "  $(GREEN)tarpaulin$(NC)  - Rapport de couverture de code (si installé)"
-	@echo "  $(GREEN)clean$(NC)      - Nettoie le projet"
-	@echo "  $(GREEN)help$(NC)       - Affiche cette aide"
-	@echo ""
-	@echo "Exemples:"
-	@echo "  make              # Exécute tous les tests"
-	@echo "  make unit         # Tests unitaires seulement"
-	@echo "  make detailed     # Tests avec output complet"
+# Installation des dépendances de développement
+setup-dev:
+	@echo "$(BLUE)Installation des outils de développement...$(NC)"
+	@rustup component add clippy
+	@rustup component add rustfmt
+	@cargo install cargo-tarpaulin 2>/dev/null || echo "$(YELLOW)tarpaulin déjà installé ou échec d'installation$(NC)"
+	@pip install maturin mkdocs-material mkdocstrings mkdocstrings-python 2>/dev/null || echo "$(YELLOW)Outils Python déjà installés$(NC)"
+	@echo "$(GREEN)✓ Environnement de développement configuré$(NC)"
+
+# Vérification du code sans exécution des tests
+check:
+	@echo "$(BLUE)Vérification du code...$(NC)"
+	@$(CARGO) check
+	@$(CARGO) clippy
+	@$(CARGO) fmt --all -- --check
+
+# ============================================================================ #
+# BENCHMARKS ET ANALYSE
+# ============================================================================ #
 
 # Benchmarks (si vous en avez)
 bench:
 	@echo "$(BLUE)Exécution des benchmarks...$(NC)"
 	@$(CARGO) bench $(BENCH_FLAGS)
-
-# Documentation rust seulement
-doc:
-	@echo "$(BLUE)Génération de la documentation...$(NC)"
-	@$(CARGO) doc --open
 
 # Couverture de code avec tarpaulin
 tarpaulin:
@@ -79,6 +152,10 @@ tarpaulin:
 	@which cargo-tarpaulin > /dev/null 2>&1 || (echo "$(RED)Tarpaulin n'est pas installé. Installation...$(NC)" && cargo install cargo-tarpaulin)
 	@echo "$(BLUE)Génération du rapport de couverture...$(NC)"
 	@cargo tarpaulin --ignore-tests --out Html
+
+# ============================================================================ #
+# CIBLES SPÉCIFIQUES ET DÉBOGAGE
+# ============================================================================ #
 
 # Test avec filtrage (pour exécuter un test spécifique)
 test-%:
@@ -94,16 +171,102 @@ release-test:
 	@echo "$(BLUE)Exécution des tests en mode release...$(NC)"
 	@$(CARGO) test --release $(TEST_FLAGS)
 
-# Vérification du code sans exécution des tests
-check:
-	@echo "$(BLUE)Vérification du code...$(NC)"
-	@$(CARGO) check
-	@$(CARGO) clippy
+# Installation de toutes les dépendances (setup complet)
+setup: setup-dev
+	@echo "$(BLUE)Installation des dépendances Rust...$(NC)"
+	@$(CARGO) fetch
+	@echo "$(GREEN)✓ Setup complet terminé$(NC)"
 
-# Installation des dépendances de développement
-setup:
-	@echo "$(BLUE)Installation des outils de développement...$(NC)"
-	@rustup component add clippy
-	@rustup component add rustfmt
-	@cargo install cargo-tarpaulin 2>/dev/null || echo "$(YELLOW)tarpaulin déjà installé ou échec d'installation$(NC)"
+# ============================================================================ #
+# CI/CD SIMULATION
+# ============================================================================ #
 
+# Simulation du pipeline CI
+ci: check test build-all build-docs
+	@echo "$(GREEN)✓ Pipeline CI simulé avec succès$(NC)"
+
+# Simulation du pipeline de release
+release: test build-all tarpaulin
+	@echo "$(GREEN)✓ Pipeline de release simulé avec succès$(NC)"
+
+# ============================================================================ #
+# AIDE
+# ============================================================================ #
+
+help:
+	@echo "$(GREEN)Makefile pour le projet $(PROJECT_NAME)$(NC)"
+	@echo ""
+	@echo "Cibles disponibles:"
+	@echo ""
+	@echo "  $(GREEN)TEST$(NC)"
+	@echo "  all        - Exécute tous les tests (cible par défaut)"
+	@echo "  test       - Tests unitaires et d'intégration"
+	@echo "  unit       - Tests unitaires seulement"
+	@echo "  integration- Tests d'intégration seulement"
+	@echo "  detailed   - Tests avec output détaillé"
+	@echo "  check      - Vérification du code (clippy + fmt)"
+	@echo ""
+	@echo "  $(GREEN)BUILD$(NC)"
+	@echo "  build-c-bindings - Construit les bindings C (Excel)"
+	@echo "  build-py-bindings- Construit les bindings Python"
+	@echo "  build-excel      - Construit l'add-in Excel (.NET)"
+	@echo "  build-all        - Construit tous les bindings"
+	@echo ""
+	@echo "  $(GREEN)DOCUMENTATION$(NC)"
+	@echo "  build-docs  - Construit la documentation MkDocs"
+	@echo "  serve-docs  - Lance le serveur de documentation"
+	@echo "  deploy-docs - Déploie sur GitHub Pages"
+	@echo "  doc         - Documentation Rust uniquement"
+	@echo ""
+	@echo "  $(GREEN)ANALYSE$(NC)"
+	@echo "  bench      - Benchmarks"
+	@echo "  tarpaulin  - Rapport de couverture de code"
+	@echo ""
+	@echo "  $(GREEN)MAINTENANCE$(NC)"
+	@echo "  clean      - Nettoyage complet"
+	@echo "  setup-dev  - Installe les outils de développement"
+	@echo "  setup      - Setup complet du projet"
+	@echo ""
+	@echo "  $(GREEN)CI/CD$(NC)"
+	@echo "  ci         - Simulation du pipeline CI"
+	@echo "  release    - Simulation du pipeline de release"
+	@echo ""
+	@echo "  $(GREEN)DÉBOGAGE$(NC)"
+	@echo "  verbose    - Tests en mode verbeux"
+	@echo "  release-test - Tests en mode release"
+	@echo "  test-*     - Tests spécifiques (ex: test-integration_tests)"
+	@echo ""
+	@echo "Exemples:"
+	@echo "  make                       # Exécute tous les tests"
+	@echo "  make build-all             # Construit tous les bindings"
+	@echo "  make ci                    # Simulation CI complète"
+	@echo "  make build-docs && serve-docs # Documentation locale"
+
+# Gestion des releases
+release-prepare:
+	@echo "$(BLUE)Préparation de la release...$(NC)"
+	@python scripts/release.py prepare
+
+release-version:
+	@echo "$(BLUE)Affichage de la version...$(NC)"
+	@python scripts/release.py version
+
+release-bump-patch:
+	@echo "$(BLUE)Création d'une release patch...$(NC)"
+	@python scripts/release.py release --bump patch
+
+release-bump-minor:
+	@echo "$(BLUE)Création d'une release mineure...$(NC)"
+	@python scripts/release.py release --bump minor
+
+release-bump-major:
+	@echo "$(BLUE)Création d'une release majeure...$(NC)"
+	@python scripts/release.py release --bump major
+
+# Alias
+release: release-bump-patch
+
+# Alias pour la rétrocompatibilité
+docs: build-docs
+docs-serve: serve-docs
+docs-deploy: deploy-docs
