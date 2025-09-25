@@ -11,7 +11,7 @@ jobs:
       contents: write
     defaults:
       run:
-        working-directory: ./  # docs All commands will run from the 'docs' folder
+        working-directory: .  # docs All commands will run from the 'docs' folder
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
