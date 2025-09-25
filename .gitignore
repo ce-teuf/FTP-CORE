@@ -3,6 +3,7 @@
 # will have compiled files and executables
 .idea/
 .venv/
+Python-3.12.0/
 
 crates/ftp_core/debug/
 crates/ftp_core/target/

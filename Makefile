@@ -44,6 +44,7 @@ unit:
 	@$(CARGO) test $(TEST_FLAGS)
 
 # Tests d'intégration seulement
+
 integration:
 	@echo "$(BLUE)Exécution des tests d'intégration...$(NC)"
 	@$(CARGO) test --test integration_tests $(TEST_FLAGS)
@@ -89,13 +90,13 @@ build-all: build-c-bindings build-py-bindings
 # Builder la documentation locale
 build-docs:
 	@echo "$(BLUE)Construction de la documentation...$(NC)"
-	@cd $(DOCS_DIR) && mkdocs build
+	@mkdocs build
 	@echo "$(GREEN)✓ Documentation construite dans $(DOCS_DIR)/site$(NC)"
 
 # Servir la documentation localement
 serve-docs:
 	@echo "$(BLUE)Lancement du serveur de documentation...$(NC)"
-	@cd $(DOCS_DIR) && mkdocs serve
+	@mkdocs serve
 
 # Déployer la documentation (pour GitHub Pages)
 deploy-docs:
