@@ -6,6 +6,7 @@ site_author: Charles Teuf
 
 # Répertoire de sortie (laisser par défaut)
 site_dir: site
+docs_dir: docs
 
 # Configuration de la navigation
 nav:
@@ -39,20 +40,20 @@ theme:
 
 # Extensions Markdown
 markdown_extensions:
-  - admonition  # Blocs d'avertissement (note, warning, etc.)
-  - codehilite:  # Coloration syntaxique du code
+  - admonition
+  - codehilite:
       guess_lang: false
       linenums: true
   - pymdownx.highlight:
       anchor_linenums: true
-  - pymdownx.superfences  # Support des diagrammes Mermaid
-  - pymdownx.tabbed:  # Onglets pour alterner entre contenus
+  - pymdownx.superfences
+  - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - toc:
-      permalink: true  # Lien permanent pour les titres
+      permalink: true
 
 # Plugins
 plugins:
