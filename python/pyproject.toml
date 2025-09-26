@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ftp_core"
-version = "0.1.795"
+version = "0.1.796"
 description = "Description de votre projet"
 authors = [
     {name = "Votre Nom", email = "votre@email.com"},
