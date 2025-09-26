@@ -127,7 +127,7 @@ jobs:
       - name: Build wheel
         run: |
           cd python
-          python -m build --release --outdir ../dist/
+          python -m build --outdir ../dist/
       - name: Set wheel file path
         id: wheel
         run: |
@@ -157,7 +157,7 @@ jobs:
       - name: Build wheel
         run: |
           cd python
-          python -m build --release --outdir ../dist/
+          python -m build --outdir ../dist/
       - name: Set wheel file path
         id: wheel
         run: |
