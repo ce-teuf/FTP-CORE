@@ -123,7 +123,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install setuptools wheel build
-        run: pip setuptools wheel build
+        run: pip install setuptools wheel build
       - name: Build wheel
         run: |
           cd python
@@ -153,7 +153,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install setuptools wheel build
-        run: pip setuptools wheel build
+        run: pip install setuptools wheel build
       - name: Build wheel
         run: |
           cd python
