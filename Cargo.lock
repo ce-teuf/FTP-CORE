@@ -173,7 +173,7 @@ dependencies = [
 
 [[package]]
 name = "ftp_core_bindings_pyo3"
-version = "0.1.6"
+version = "0.1.71"
 dependencies = [
  "ftp_core",
  "pyo3",

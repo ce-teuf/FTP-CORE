@@ -79,7 +79,7 @@ jobs:
         run: |
           cd crates/ftp_core_bindings_pyo3
           maturin build --release --out dist/
-          ls -la dist/
+          ls -la .
       - name: Set wheel file path
         id: wheel
         run: |
