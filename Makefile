@@ -59,13 +59,26 @@ detailed:
 # BUILD DES BINDINGS ET ARTEFACTS
 # ============================================================================ #
 
+UNAME := $(shell uname)
+
+ifeq ($(UNAME), Linux)
+LIB_NAME := libftp_core_bindings_c.so
+else ifeq ($(UNAME), Darwin)
+LIB_NAME := libftp_core_bindings_c.dylib
+else
+LIB_NAME := ftp_core_bindings_c.dll
+endif
+
 # Builder les bindings C (pour Excel)
 build-c-bindings:
 	@echo "$(BLUE)Construction des bindings C...$(NC)"
 	@cd $(C_BINDINGS_DIR) && $(CARGO) build --release
 	@echo "$(GREEN)✓ Bindings C construits$(NC)"
 	@echo "$(BLUE)Copie des artefacts...$(NC)"
-	@cd $(C_BINDINGS_DIR) && ./copy_artifacts.sh
+	@echo "$(GREEN)✓ Lib selectionnee: $(LIB_NAME)$(NC)"
+	@mkdir -p ../excel/Interop/
+	@cp target/release/$(LIB_NAME) excel/Interop/
+	@echo "$(GREEN)✓ Artefacts copiés$(NC)"
 
 # Builder les bindings Python
 build-py-bindings:

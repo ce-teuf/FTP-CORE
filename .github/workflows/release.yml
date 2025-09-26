@@ -25,24 +25,24 @@ jobs:
           draft: false
           prerelease: false
 
-  release-excel:
-    needs: create-release
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Rust
-        run: rustup update stable && rustup default stable
-      - name: Build C bindings
-        run: cd crates/ftp_core_bindings_c && cargo build --release
-      - name: Upload DLL to Release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: crates/ftp_core_bindings_c/target/release/ftp_core_bindings_c.dll
-          asset_name: ftp_core_bindings_c.dll
-          asset_content_type: application/octet-stream
+#  release-excel:
+#    needs: create-release
+#    runs-on: windows-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Install Rust
+#        run: rustup update stable && rustup default stable
+#      - name: Build C bindings
+#        run: cd crates/ftp_core_bindings_c && cargo build --release
+#      - name: Upload DLL to Release
+#        uses: actions/upload-release-asset@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ needs.create-release.outputs.upload_url }}
+#          asset_path: crates/ftp_core_bindings_c/target/release/ftp_core_bindings_c.dll
+#          asset_name: ftp_core_bindings_c.dll
+#          asset_content_type: application/octet-stream
 
   release-python:
     needs: create-release
@@ -72,7 +72,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: "3.12"
       - name: Install maturin
         run: pip install maturin
       - name: Build wheel
@@ -83,6 +83,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: crates/ftp_core_bindings_pyo3/target/wheels/*.whl
+          asset_path: target/wheels/*.whl
           asset_name: ftp_core_python.whl
           asset_content_type: application/octet-stream
