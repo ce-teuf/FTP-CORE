@@ -3,7 +3,7 @@
 # will have compiled files and executables
 .idea/
 .venv/
-builds/
+
 Python-3.12.0/
 
 docs/site/rust-generated/debug
