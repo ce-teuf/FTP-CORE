@@ -1,6 +1,6 @@
 [package]
 name = "ftp_core_bindings_pyo3"
-version = "0.1.793"
+version = "0.1.794"
 edition = "2021"
 description = "Python bindings for FTP Core library"
 authors = ["Votre Nom <votre.email@example.com>"]
@@ -16,7 +16,7 @@ name = "ftp_core_bindings_pyo3"
 crate-type = ["cdylib"]
 
 [dependencies]
-ftp_core = { path = "../ftp_core", version="0.1.793" }
+ftp_core = { path = "../ftp_core", version="0.1.794" }
 pyo3 = { version = "0.26.0", features = ["extension-module"] }
 
 
