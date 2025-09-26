@@ -1,6 +1,6 @@
 [package]
 name = "ftp_core_bindings_c"
-version = "0.1.794"
+version = "0.1.795"
 edition = "2021"
 description = "Core FTP calculation library"
 authors = ["Votre Nom <votre.email@example.com>"]
@@ -17,7 +17,7 @@ crate-type = ["cdylib"]  # Pour les bindings C, on veut seulement cdylib
 
 [dependencies]
 ndarray = "0.16.1"
-ftp_core = { path = "../ftp_core", version = "0.1.794" }  # ADD THIS LINE
+ftp_core = { path = "../ftp_core", version = "0.1.795" }  # ADD THIS LINE
 cbindgen = "0.29.0"
 
 [build-dependencies]
