@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "ftp_core_python"
-version = "0.1.71"
+version = "0.1.72"
 description = "Python wrapper for FTP_CALCULATOR Rust core"
 authors = [{ name = "Charles Teuf", email = "ton_email@example.com" }]
 license = { text = "MIT" }
