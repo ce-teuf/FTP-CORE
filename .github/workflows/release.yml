@@ -62,6 +62,24 @@ jobs:
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
 
+  release-python-package:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      - name: Install twine build
+        run: pip install twine build
+        # twine upload dist/* --username __token__ --password YOUR_PYPI_API_TOKEN
+      - name: Build and publish to PyPI
+        run: twine upload dist/* --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
+        # cd dist && maturin publish --username __token__ --password ${{ secrets.PYPI_API_TOKEN }}
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+
   release-python-wheel:
     needs: create-release
     runs-on: ubuntu-latest
@@ -93,4 +111,64 @@ jobs:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: ${{ steps.wheel.outputs.whl_path }}
           asset_name: ftp_core_bindings_pyo3-${{ github.ref_name }}.whl
+          asset_content_type: application/octet-stream
+
+  release-python-wheel-package:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      - name: Install setuptools wheel build
+        run: pip setuptools wheel build
+      - name: Build wheel
+        run: |
+          cd python
+          python -m build --release --outdir ../dist/
+      - name: Set wheel file path
+        id: wheel
+        run: |
+          WHL_FILE=$(ls dist/ftp_core-*-py3-none-any.whl)
+          echo "whl_path=$WHL_FILE" >> $GITHUB_OUTPUT
+      - name: Upload wheel to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ${{ steps.wheel.outputs.whl_path }}
+          asset_name: ftp_core-${{ github.ref_name }}-py3-none-any.whl
+          asset_content_type: application/octet-stream
+
+  release-python-wheel-package-targz:
+    needs: create-release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      - name: Install setuptools wheel build
+        run: pip setuptools wheel build
+      - name: Build wheel
+        run: |
+          cd python
+          python -m build --release --outdir ../dist/
+      - name: Set wheel file path
+        id: wheel
+        run: |
+          WHL_FILE=$(ls dist/ftp_core-*.tar.gz)
+          echo "whl_path=$WHL_FILE" >> $GITHUB_OUTPUT
+      - name: Upload wheel to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: ${{ steps.wheel.outputs.whl_path }}
+          asset_name: ftp_core-${{ github.ref_name }}.tar.gz
           asset_content_type: application/octet-stream

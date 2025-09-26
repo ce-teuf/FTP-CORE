@@ -64,7 +64,7 @@ class ReleaseManager:
                     toml.dump(data, f)
                 print(f"✅ {crate_toml} mis à jour")
 
-        # Met à jour pyproject.toml Python
+        # Met à jour old_pyproject.toml Python
         if self.pyproject_toml.exists():
             with open(self.pyproject_toml, 'r') as f:
                 data = toml.load(f)

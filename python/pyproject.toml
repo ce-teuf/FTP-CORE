@@ -1,29 +1,14 @@
 [build-system]
-requires = ["maturin>=1.0,<2.0"]
-build-backend = "maturin"
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
 
 [project]
-name = "ftp_core_python"
-version = "0.1.72"
-description = "Python wrapper for FTP_CALCULATOR Rust core"
-authors = [{ name = "Charles Teuf", email = "ton_email@example.com" }]
-license = { text = "MIT" }
-readme = "README.md"
-requires-python = ">=3.8"
-classifiers = [
-    "Programming Language :: Rust",
-    "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
+name = "ftp_core"
+version = "0.1.73"
+description = "Description de votre projet"
+authors = [
+    {name = "Votre Nom", email = "votre@email.com"},
 ]
-
-[project.optional-dependencies]
-docs = [
-    "pdoc",
+dependencies = [
+    "pytest",
 ]
-
-[project.urls]
-Repository = "https://github.com/ton_org/FTP_CALCULATOR"
-
-[tool.maturin]
-features = ["pyo3/extension-module"]
-module-name = "ftp_core_python._core"  # Nom du module compilé
