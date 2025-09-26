@@ -1,6 +1,6 @@
 [package]
 name = "ftp_core_bindings_c"
-version = "0.1.77"
+version = "0.1.78"
 edition = "2021"
 description = "Core FTP calculation library"
 authors = ["Votre Nom <votre.email@example.com>"]
