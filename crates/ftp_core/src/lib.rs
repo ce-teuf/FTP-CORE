@@ -9,7 +9,7 @@
 //! - Méthodes stock et flux
 //!
 //! ## Exemple d'utilisation
-//!
+//! test
 //! ```rust
 //! use ftp_core::FtpResult;
 //! use ndarray::array;
@@ -20,6 +20,7 @@
 //!
 //! let mut ftp_result = FtpResult::new(outstanding, profiles, rates);
 //! ftp_result.compute("stock".to_string());
+//!
 //! ```
 
 use ndarray::array;

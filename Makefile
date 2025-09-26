@@ -89,15 +89,9 @@ build-all: build-c-bindings build-py-bindings
 
 # Builder la documentation locale
 build_docs:
-	@cargo doc --target-dir docs/site/rust-generated/ --no-deps --workspace
-	@pdoc -o docs/site/python-generated/ python/src/
-
-
-#
-#build-docs:
-#	@echo "$(BLUE)Construction de la documentation...$(NC)"
-#	@mkdocs build
-#	@echo "$(GREEN)✓ Documentation construite dans $(DOCS_DIR)/site$(NC)"
+	@echo "$(BLUE)Construction de la documentation Rust...$(NC)"
+	@$(CARGO) doc --target-dir $(DOCS_DIR)/site/rust-generated/ --workspace --no-deps --open
+	@.venv/bin/python -m pdoc -o $(DOCS_DIR)/site/python-generated/ python/src/
 
 # Servir la documentation localement
 serve-docs:
@@ -125,9 +119,11 @@ clean:
 	@echo "$(YELLOW)Nettoyage du projet...$(NC)"
 	@$(CARGO) clean
 	@rm -rf target
-	@rm -rf $(DOCS_DIR)/site
+	@rm -rf $(DOCS_DIR)/site/python-generated
+	@rm -rf $(DOCS_DIR)/site/rust-generated
 	@rm -rf $(EXCEL_DIR)/Interop/*
 	@echo "$(GREEN)✓ Projet nettoyé$(NC)"
+
 
 # Installation des dépendances de développement
 setup-dev:
