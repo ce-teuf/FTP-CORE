@@ -94,7 +94,7 @@ build-excel:
 
 # Builder tous les bindings
 build-all: build-c-bindings build-py-bindings
-	@echo "$(GREEN)✓ Tous les bindings construits$(NC)"
+	@echo "$(GREEN)✓ Tous les bindings construitsx$(NC)"
 
 # ============================================================================ #
 # DOCUMENTATION
